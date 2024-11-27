@@ -1,49 +1,41 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\",
+  "WorkspaceRootPath": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\utility\\commondefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\utility\\commondefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\zebrascanner\\view\\scannersdetectionprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\view\\scannersdetectionprogressform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\utility\\xmlreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\utility\\xmlreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\events\\barcodescannedeventargs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\events\\barcodescannedeventargs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\model\\commandresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\model\\commandresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\service\\qrscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\service\\qrscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\controller\\scannercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\controller\\scannercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\controller\\scannercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\utility\\logger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\utility\\commondefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\utility\\commondefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\utility\\logger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\utility\\logger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\inmersion-qr\\zebrascanner\\zebrascanner\\zebrascanner\\model\\scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\service\\qrscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\service\\qrscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\utility\\xmlreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\utility\\xmlreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\events\\barcodescannedeventargs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\events\\barcodescannedeventargs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\model\\commandresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\model\\commandresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|c:\\users\\usuario\\desktop\\github\\qr-scanner-service\\zebrascanner\\zebrascanner\\model\\scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{683A646E-980C-450A-85B4-ABC85B21EB91}|ZebraScanner\\ZebraScanner.csproj|solutionrelative:zebrascanner\\model\\scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -68,15 +60,15 @@
         },
         {
           "DockedWidth": 307,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "QRScannerService.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\service\\QRScannerService.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\service\\QRScannerService.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\service\\QRScannerService.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\service\\QRScannerService.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\service\\QRScannerService.cs",
               "RelativeToolTip": "ZebraScanner\\service\\QRScannerService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -85,24 +77,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "ScannerController.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\controller\\ScannerController.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\controller\\ScannerController.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\controller\\ScannerController.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\controller\\ScannerController.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\controller\\ScannerController.cs",
               "RelativeToolTip": "ZebraScanner\\controller\\ScannerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-27T07:57:49.33Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "Logger.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\Logger.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\Logger.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\utility\\Logger.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\Logger.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\Logger.cs",
               "RelativeToolTip": "ZebraScanner\\utility\\Logger.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -111,65 +103,61 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "Scanner.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\model\\Scanner.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\model\\Scanner.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\model\\Scanner.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\model\\Scanner.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\model\\Scanner.cs",
               "RelativeToolTip": "ZebraScanner\\model\\Scanner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T15:22:36.037Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-27T15:22:36.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CommandResult.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\model\\CommandResult.cs",
+              "RelativeDocumentMoniker": "ZebraScanner\\model\\CommandResult.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\model\\CommandResult.cs",
+              "RelativeToolTip": "ZebraScanner\\model\\CommandResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T08:39:18.836Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "CommandResult.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\model\\CommandResult.cs",
-              "RelativeDocumentMoniker": "ZebraScanner\\model\\CommandResult.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\model\\CommandResult.cs",
-              "RelativeToolTip": "ZebraScanner\\model\\CommandResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "Title": "BarcodeScannedEventArgs.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
+              "RelativeDocumentMoniker": "ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
+              "RelativeToolTip": "ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T08:39:18.836Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-27T11:53:49.235Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "BarcodeScannedEventArgs.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
-              "RelativeDocumentMoniker": "ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
-              "RelativeToolTip": "ZebraScanner\\events\\BarcodeScannedEventArgs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T11:53:49.235Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "XMLReader.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\XMLReader.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\XMLReader.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\utility\\XMLReader.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\XMLReader.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\XMLReader.cs",
               "RelativeToolTip": "ZebraScanner\\utility\\XMLReader.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T08:44:13.391Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-27T08:44:13.391Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CommonDefs.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\CommonDefs.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\CommonDefs.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\utility\\CommonDefs.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\utility\\CommonDefs.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\utility\\CommonDefs.cs",
               "RelativeToolTip": "ZebraScanner\\utility\\CommonDefs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAK4DAAAAAAAAAAAiwMEDAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-27T15:31:42.562Z",
               "EditorCaption": ""
@@ -178,43 +166,17 @@
         },
         {
           "DockedWidth": 262,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MainForm.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\view\\MainForm.cs",
-              "RelativeDocumentMoniker": "ZebraScanner\\view\\MainForm.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\view\\MainForm.cs [Dise\u00F1o]",
-              "RelativeToolTip": "ZebraScanner\\view\\MainForm.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T07:44:17.715Z",
-              "IsPinned": true,
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ScannersDetectionProgressForm.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\view\\ScannersDetectionProgressForm.cs",
-              "RelativeDocumentMoniker": "ZebraScanner\\view\\ScannersDetectionProgressForm.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\view\\ScannersDetectionProgressForm.cs [Dise\u00F1o]",
-              "RelativeToolTip": "ZebraScanner\\view\\ScannersDetectionProgressForm.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T16:13:32.489Z",
-              "IsPinned": true,
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "CustomExceptions.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\exceptions\\CustomExceptions.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\exceptions\\CustomExceptions.cs",
               "RelativeDocumentMoniker": "ZebraScanner\\exceptions\\CustomExceptions.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Inmersion-QR\\ZebraScanner\\ZebraScanner\\ZebraScanner\\exceptions\\CustomExceptions.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\ZebraScanner\\ZebraScanner\\exceptions\\CustomExceptions.cs",
               "RelativeToolTip": "ZebraScanner\\exceptions\\CustomExceptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-27T08:39:23.259Z",
               "EditorCaption": ""
