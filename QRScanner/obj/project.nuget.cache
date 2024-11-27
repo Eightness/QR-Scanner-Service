@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "54jGzzlqlWA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Github\\QR-Scanner-Service\\QRScanner\\QRScanner.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.26100.54\\microsoft.windows.sdk.net.ref.10.0.26100.54.nupkg.sha512"
+  ],
+  "logs": []
+}
