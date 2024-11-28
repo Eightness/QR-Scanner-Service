@@ -32,7 +32,9 @@ namespace QRScanner.utility
         private Logger()
         {
             // Define the log file path inside the "out" folder
-            string logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "out");
+            string projectDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", ".."));
+            string logDirectory = Path.Combine(projectDirectory, "out");
+
             if (!Directory.Exists(logDirectory))
                 Directory.CreateDirectory(logDirectory);
 
