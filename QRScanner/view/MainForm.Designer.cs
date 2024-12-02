@@ -30,8 +30,8 @@
         {
             startService_Button = new Button();
             stopService_Button = new Button();
-            textBox1 = new TextBox();
-            detectedScanners_DataGrid = new DataGridView();
+            logs_TextBox = new TextBox();
+            detectedScanners_DataGridView = new DataGridView();
             scannerId = new DataGridViewTextBoxColumn();
             scannerType = new DataGridViewTextBoxColumn();
             serialNumber = new DataGridViewTextBoxColumn();
@@ -49,7 +49,9 @@
             scannerId_TextBox = new TextBox();
             claimScanner_CheckBox = new CheckBox();
             registerEvents_CheckBox = new CheckBox();
-            ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGrid).BeginInit();
+            clearLogs_Button = new Button();
+            beep_Button = new Button();
+            ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).BeginInit();
             SuspendLayout();
             // 
             // startService_Button
@@ -75,24 +77,24 @@
             stopService_Button.UseVisualStyleBackColor = true;
             stopService_Button.Click += stopServiceButton_Click;
             // 
-            // textBox1
+            // logs_TextBox
             // 
-            textBox1.Location = new Point(12, 99);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(400, 350);
-            textBox1.TabIndex = 2;
+            logs_TextBox.Location = new Point(12, 99);
+            logs_TextBox.Multiline = true;
+            logs_TextBox.Name = "logs_TextBox";
+            logs_TextBox.ReadOnly = true;
+            logs_TextBox.ScrollBars = ScrollBars.Vertical;
+            logs_TextBox.Size = new Size(400, 250);
+            logs_TextBox.TabIndex = 2;
             // 
-            // detectedScanners_DataGrid
+            // detectedScanners_DataGridView
             // 
-            detectedScanners_DataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            detectedScanners_DataGrid.Columns.AddRange(new DataGridViewColumn[] { scannerId, scannerType, serialNumber, GUID, VID, PID, modelNumber, dom, firmware });
-            detectedScanners_DataGrid.Location = new Point(422, 99);
-            detectedScanners_DataGrid.Name = "detectedScanners_DataGrid";
-            detectedScanners_DataGrid.Size = new Size(400, 250);
-            detectedScanners_DataGrid.TabIndex = 4;
+            detectedScanners_DataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            detectedScanners_DataGridView.Columns.AddRange(new DataGridViewColumn[] { scannerId, scannerType, serialNumber, GUID, VID, PID, modelNumber, dom, firmware });
+            detectedScanners_DataGridView.Location = new Point(422, 99);
+            detectedScanners_DataGridView.Name = "detectedScanners_DataGridView";
+            detectedScanners_DataGridView.Size = new Size(400, 250);
+            detectedScanners_DataGridView.TabIndex = 4;
             // 
             // scannerId
             // 
@@ -183,9 +185,9 @@
             selectedScanner_Label.Font = new Font("Segoe UI", 12F);
             selectedScanner_Label.Location = new Point(422, 352);
             selectedScanner_Label.Name = "selectedScanner_Label";
-            selectedScanner_Label.Size = new Size(287, 21);
+            selectedScanner_Label.Size = new Size(173, 21);
             selectedScanner_Label.TabIndex = 7;
-            selectedScanner_Label.Text = "Selected Scanner: None [NOT CLAIMED]";
+            selectedScanner_Label.Text = "Selected Scanner: None";
             // 
             // selectScanner_Button
             // 
@@ -219,7 +221,7 @@
             scannerId_TextBox.Name = "scannerId_TextBox";
             scannerId_TextBox.Size = new Size(91, 29);
             scannerId_TextBox.TabIndex = 24;
-            scannerId_TextBox.KeyPress += scannerIdLabel_KeyPress;
+            scannerId_TextBox.KeyPress += scannerIdTextBox_KeyPress;
             // 
             // claimScanner_CheckBox
             // 
@@ -251,11 +253,37 @@
             registerEvents_CheckBox.UseVisualStyleBackColor = true;
             registerEvents_CheckBox.CheckedChanged += registerEventsCheckBox_CheckedChanged;
             // 
+            // clearLogs_Button
+            // 
+            clearLogs_Button.Font = new Font("Segoe UI", 12F);
+            clearLogs_Button.Location = new Point(12, 355);
+            clearLogs_Button.Name = "clearLogs_Button";
+            clearLogs_Button.Size = new Size(125, 50);
+            clearLogs_Button.TabIndex = 28;
+            clearLogs_Button.Text = "Clear Logs";
+            clearLogs_Button.UseVisualStyleBackColor = true;
+            clearLogs_Button.Click += clearLogsButton_Click;
+            // 
+            // beep_Button
+            // 
+            beep_Button.Enabled = false;
+            beep_Button.Font = new Font("Wingdings", 20F, FontStyle.Bold, GraphicsUnit.Point, 2);
+            beep_Button.ForeColor = SystemColors.ControlDarkDark;
+            beep_Button.Location = new Point(772, 12);
+            beep_Button.Name = "beep_Button";
+            beep_Button.Size = new Size(50, 50);
+            beep_Button.TabIndex = 29;
+            beep_Button.Text = "%";
+            beep_Button.UseVisualStyleBackColor = true;
+            beep_Button.Click += beepButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(834, 461);
+            Controls.Add(beep_Button);
+            Controls.Add(clearLogs_Button);
             Controls.Add(registerEvents_CheckBox);
             Controls.Add(claimScanner_CheckBox);
             Controls.Add(scannerId_Label);
@@ -264,13 +292,15 @@
             Controls.Add(selectedScanner_Label);
             Controls.Add(detectedScanners_Label);
             Controls.Add(logs_Label);
-            Controls.Add(detectedScanners_DataGrid);
-            Controls.Add(textBox1);
+            Controls.Add(detectedScanners_DataGridView);
+            Controls.Add(logs_TextBox);
             Controls.Add(stopService_Button);
             Controls.Add(startService_Button);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "MainForm";
             Text = "QR Scanner Service";
-            ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -279,8 +309,8 @@
 
         private Button startService_Button;
         private Button stopService_Button;
-        private TextBox textBox1;
-        private DataGridView detectedScanners_DataGrid;
+        private TextBox logs_TextBox;
+        private DataGridView detectedScanners_DataGridView;
         private DataGridViewTextBoxColumn scannerId;
         private DataGridViewTextBoxColumn scannerType;
         private DataGridViewTextBoxColumn serialNumber;
@@ -298,5 +328,7 @@
         private TextBox scannerId_TextBox;
         private CheckBox claimScanner_CheckBox;
         private CheckBox registerEvents_CheckBox;
+        private Button clearLogs_Button;
+        private Button beep_Button;
     }
 }

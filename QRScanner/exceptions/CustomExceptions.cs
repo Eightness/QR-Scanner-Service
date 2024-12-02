@@ -62,6 +62,21 @@ namespace QRScanner.Exceptions
     /// <summary>
     /// Exception thrown when attempting an operation without a selected scanner.
     /// </summary>
+    public class ScannerAlreadySelectedException : QRScannerException
+    {
+        public ScannerAlreadySelectedException(int scannerId)
+            : base($"Scanner with ID {scannerId} already selected.") { }
+
+        public ScannerAlreadySelectedException(string message)
+            : base(message) { }
+
+        public ScannerAlreadySelectedException(string message, Exception innerException)
+            : base(message, innerException) { }
+    }
+
+    /// <summary>
+    /// Exception thrown when attempting an operation without a selected scanner.
+    /// </summary>
     public class ScannerNotSelectedException : QRScannerException
     {
         public ScannerNotSelectedException()

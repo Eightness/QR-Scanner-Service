@@ -21,3 +21,4 @@ C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-wi
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.pdb
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.genruntimeconfig.cache
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\ref\QRScanner.dll
+C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.Properties.Resources.resources

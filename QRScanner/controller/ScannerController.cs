@@ -17,8 +17,8 @@ namespace QRScanner.controller
         #region Attributes and instances
 
         private readonly CCoreScanner _coreScanner; // CoreScanner SDK instance
-        private List<Scanner> detectedScanners;
-        private Scanner selectedScanner;
+        public List<Scanner> DetectedScanners;
+        public Scanner SelectedScanner;
 
         /// <summary>
         /// Event triggered when a barcode is scanned.
@@ -33,7 +33,7 @@ namespace QRScanner.controller
         public ScannerController()
         {
             _coreScanner = new CCoreScanner();
-            detectedScanners = new List<Scanner>();
+            DetectedScanners = new List<Scanner>();
         }
 
         #region Primary methods
@@ -128,15 +128,15 @@ namespace QRScanner.controller
                 throw new ScannersDetectionFailedException(result.StatusMessage);
             
             // Get all scanners detected
-            detectedScanners = result.GetAllScanners();
+            DetectedScanners = result.GetAllScanners();
 
-            if (detectedScanners.Count <= 0)
+            if (DetectedScanners.Count <= 0)
                 throw new NoScannersFoundException();
 
             // Select first scanner detected by default
-            selectedScanner = result.GetFirstScannerDetected();
+            SelectedScanner = result.GetFirstScannerDetected();
 
-            if (selectedScanner == null)
+            if (SelectedScanner == null)
                 throw new ScannerNotSelectedException();
 
             return result;
@@ -233,15 +233,15 @@ namespace QRScanner.controller
         /// </exception>
         public CommandResult ClaimScanner()
         {
-            ValidateScanner(selectedScanner);
+            ValidateScanner(SelectedScanner);
 
-            string inXml = $"<inArgs><scannerID>{selectedScanner.ScannerID}</scannerID></inArgs>";
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID></inArgs>";
             _coreScanner.ExecCommand(OpcodesHandler.CLAIM_DEVICE, ref inXml, out string outXml, out int status);
 
             CommandResult result = new CommandResult(status, outXml);
 
             if (result.Status != 0)
-                throw new CommandExecutionFailedException(OpcodesHandler.CLAIM_DEVICE, $"{selectedScanner.ScannerID}", result.StatusMessage);
+                throw new CommandExecutionFailedException(OpcodesHandler.CLAIM_DEVICE, $"{SelectedScanner.ScannerID}", result.StatusMessage);
 
             return result;
         }
@@ -266,15 +266,15 @@ namespace QRScanner.controller
         /// </exception>
         public CommandResult ReleaseScanner()
         {
-            ValidateScanner(selectedScanner);
+            ValidateScanner(SelectedScanner);
 
-            string inXml = $"<inArgs><scannerID>{selectedScanner.ScannerID}</scannerID></inArgs>";
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID></inArgs>";
             _coreScanner.ExecCommand(OpcodesHandler.RELEASE_DEVICE, ref inXml, out string outXml, out int status);
 
             CommandResult result = new CommandResult(status, outXml);
 
             if (result.Status != 0)
-                throw new CommandExecutionFailedException(OpcodesHandler.RELEASE_DEVICE, $"{selectedScanner.ScannerID}", result.StatusMessage);
+                throw new CommandExecutionFailedException(OpcodesHandler.RELEASE_DEVICE, $"{SelectedScanner.ScannerID}", result.StatusMessage);
 
             return result;
         }
@@ -297,13 +297,21 @@ namespace QRScanner.controller
         /// </exception>
         public void SelectScannerById(int scannerId)
         {
-            foreach (Scanner scanner in detectedScanners)
+            if (SelectedScanner.ScannerID == scannerId)
+                throw new ScannerAlreadySelectedException(scannerId);
+
+            bool found = false;
+
+            foreach (Scanner scanner in DetectedScanners)
             {
                 if (scanner.ScannerID == scannerId)
-                    selectedScanner = scanner;
+                {
+                    found = true;
+                    SelectedScanner = scanner;
+                }
             }
 
-            if (selectedScanner == null)
+            if (!found)
                 throw new ScannerNotFoundException(scannerId);
         }
 
@@ -326,15 +334,52 @@ namespace QRScanner.controller
         /// </exception>
         public CommandResult RestartScanner()
         {
-            ValidateScanner(selectedScanner);
+            ValidateScanner(SelectedScanner);
 
-            string inXml = $"<inArgs><scannerID>{selectedScanner.ScannerID}</scannerID>";
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID>";
             _coreScanner.ExecCommand(OpcodesHandler.REBOOT_SCANNER, ref inXml, out string outXml, out int status);
 
             CommandResult result = new CommandResult(status, outXml);
 
             if (result.Status != 0)
-                throw new CommandExecutionFailedException(OpcodesHandler.REBOOT_SCANNER, $"{selectedScanner.ScannerID}", result.StatusMessage);
+                throw new CommandExecutionFailedException(OpcodesHandler.REBOOT_SCANNER, $"{SelectedScanner.ScannerID}", result.StatusMessage);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Beeps the scanner.
+        /// </summary>
+        /// <remarks>
+        /// Serves as a test to see if the scanner is actually connected and selected.
+        /// </remarks>
+        /// <returns>
+        /// A <see cref="CommandResult"/> object containing the status of the restart operation and any relevant XML output.
+        /// </returns>
+        /// <exception cref="SelectedScannerIsNullException">
+        /// Thrown when no scanner is currently selected. Ensure a scanner is selected before calling this method.
+        /// </exception>
+        /// <exception cref="CommandExecutionFailedException">
+        /// Thrown when the API command to restart the scanner fails. The exception includes details about the failed command, 
+        /// such as the opcode, scanner ID, and the error message.
+        /// </exception>
+        public CommandResult BeepScanner()
+        {
+            ValidateScanner(SelectedScanner);
+
+            string inXml = "<inArgs>" +
+                                $"<scannerID>{SelectedScanner.ScannerID}</scannerID>" + // The scanner you need to beep
+                                "<cmdArgs>" +
+                                    $"<arg-int>25</arg-int>" + // Low-high-low beep
+                                "</cmdArgs>" +
+                            "</inArgs>";
+
+            _coreScanner.ExecCommand(OpcodesHandler.SET_ACTION, ref inXml, out string outXml, out int status);
+
+            CommandResult result = new CommandResult(status, outXml);
+
+            if (result.Status != 0)
+                throw new CommandExecutionFailedException(OpcodesHandler.REBOOT_SCANNER, $"{SelectedScanner.ScannerID}", result.StatusMessage);
 
             return result;
         }
@@ -366,9 +411,9 @@ namespace QRScanner.controller
         /// </exception>
         public CommandResult CommandScanner(int opcode, string args)
         {
-            ValidateScanner(selectedScanner);
+            ValidateScanner(SelectedScanner);
 
-            string inXml = $"<inArgs><scannerID>{selectedScanner.ScannerID}</scannerID><cmdArgs><arg-int>{args}</arg-int></cmdArgs></inArgs>";
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID><cmdArgs><arg-int>{args}</arg-int></cmdArgs></inArgs>";
             _coreScanner.ExecCommand(opcode, ref inXml, out string outXml, out int status);
 
             CommandResult result = new CommandResult(status, outXml);
