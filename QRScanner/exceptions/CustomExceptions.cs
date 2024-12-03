@@ -169,4 +169,23 @@ namespace QRScanner.Exceptions
     }
 
     #endregion
+
+    #region Decoding related Exceptions
+
+    /// <summary>
+    /// Exception thrown when no datalabel is found in the provided XML.
+    /// </summary>
+    public class DataLabelNotFoundException : QRScannerException
+    {
+        public DataLabelNotFoundException()
+            : base("DataLabel was not found in the provided XML.") { }
+
+        public DataLabelNotFoundException(string message)
+            : base(message) { }
+
+        public DataLabelNotFoundException(string message, Exception innerException)
+            : base(message, innerException) { }
+    }
+
+    #endregion
 }

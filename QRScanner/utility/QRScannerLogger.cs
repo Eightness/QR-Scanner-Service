@@ -9,11 +9,11 @@ namespace QRScanner.utility
     /// Provides thread-safe logging with support for different log levels (INFO, WARNING, ERROR).
     /// Logs are stored in memory and appended to a file in the "out" directory.
     /// </summary>
-    public sealed class Logger
+    public sealed class QRScannerLogger
     {
         #region Attributes and instances
 
-        private static readonly Lazy<Logger> _instance = new(() => new Logger());
+        private static readonly Lazy<QRScannerLogger> _instance = new(() => new QRScannerLogger());
         private readonly ConcurrentQueue<string> _logs = new();
         private int _logCounter = 0; // Counter for the number of logs
         private readonly string _logFilePath; // File path for the logs
@@ -21,7 +21,7 @@ namespace QRScanner.utility
         /// <summary>
         /// Provides the singleton instance of the Logger.
         /// </summary>
-        public static Logger Instance => _instance.Value;
+        public static QRScannerLogger Instance => _instance.Value;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace QRScanner.utility
         /// Private constructor to prevent external instantiation.
         /// Sets up the log file in the "out" directory.
         /// </summary>
-        private Logger()
+        private QRScannerLogger()
         {
             // Define the log file path inside the "out" folder
             string projectDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", ".."));

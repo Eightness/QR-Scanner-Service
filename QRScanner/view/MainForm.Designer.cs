@@ -47,8 +47,6 @@
             selectScanner_Button = new Button();
             scannerId_Label = new Label();
             scannerId_TextBox = new TextBox();
-            claimScanner_CheckBox = new CheckBox();
-            registerEvents_CheckBox = new CheckBox();
             clearLogs_Button = new Button();
             beep_Button = new Button();
             ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).BeginInit();
@@ -193,7 +191,7 @@
             // 
             selectScanner_Button.Enabled = false;
             selectScanner_Button.Font = new Font("Segoe UI", 12F);
-            selectScanner_Button.Location = new Point(697, 399);
+            selectScanner_Button.Location = new Point(422, 12);
             selectScanner_Button.Name = "selectScanner_Button";
             selectScanner_Button.Size = new Size(125, 50);
             selectScanner_Button.TabIndex = 8;
@@ -206,7 +204,7 @@
             scannerId_Label.AutoSize = true;
             scannerId_Label.Font = new Font("Segoe UI", 12F);
             scannerId_Label.ImeMode = ImeMode.NoControl;
-            scannerId_Label.Location = new Point(600, 396);
+            scannerId_Label.Location = new Point(553, 12);
             scannerId_Label.Name = "scannerId_Label";
             scannerId_Label.Size = new Size(85, 21);
             scannerId_Label.TabIndex = 25;
@@ -216,42 +214,12 @@
             // 
             scannerId_TextBox.Enabled = false;
             scannerId_TextBox.Font = new Font("Segoe UI", 12F);
-            scannerId_TextBox.Location = new Point(600, 420);
+            scannerId_TextBox.Location = new Point(553, 33);
             scannerId_TextBox.MaxLength = 10;
             scannerId_TextBox.Name = "scannerId_TextBox";
             scannerId_TextBox.Size = new Size(91, 29);
             scannerId_TextBox.TabIndex = 24;
             scannerId_TextBox.KeyPress += scannerIdTextBox_KeyPress;
-            // 
-            // claimScanner_CheckBox
-            // 
-            claimScanner_CheckBox.AutoSize = true;
-            claimScanner_CheckBox.Checked = true;
-            claimScanner_CheckBox.CheckState = CheckState.Checked;
-            claimScanner_CheckBox.Enabled = false;
-            claimScanner_CheckBox.Font = new Font("Segoe UI", 12F);
-            claimScanner_CheckBox.Location = new Point(422, 424);
-            claimScanner_CheckBox.Name = "claimScanner_CheckBox";
-            claimScanner_CheckBox.Size = new Size(129, 25);
-            claimScanner_CheckBox.TabIndex = 26;
-            claimScanner_CheckBox.Text = "Claim Scanner";
-            claimScanner_CheckBox.UseVisualStyleBackColor = true;
-            claimScanner_CheckBox.CheckedChanged += claimScannerCheckBox_CheckedChanged;
-            // 
-            // registerEvents_CheckBox
-            // 
-            registerEvents_CheckBox.AutoSize = true;
-            registerEvents_CheckBox.Checked = true;
-            registerEvents_CheckBox.CheckState = CheckState.Checked;
-            registerEvents_CheckBox.Enabled = false;
-            registerEvents_CheckBox.Font = new Font("Segoe UI", 12F);
-            registerEvents_CheckBox.Location = new Point(422, 395);
-            registerEvents_CheckBox.Name = "registerEvents_CheckBox";
-            registerEvents_CheckBox.Size = new Size(135, 25);
-            registerEvents_CheckBox.TabIndex = 27;
-            registerEvents_CheckBox.Text = "Register Events";
-            registerEvents_CheckBox.UseVisualStyleBackColor = true;
-            registerEvents_CheckBox.CheckedChanged += registerEventsCheckBox_CheckedChanged;
             // 
             // clearLogs_Button
             // 
@@ -281,11 +249,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(834, 461);
+            ClientSize = new Size(834, 411);
             Controls.Add(beep_Button);
             Controls.Add(clearLogs_Button);
-            Controls.Add(registerEvents_CheckBox);
-            Controls.Add(claimScanner_CheckBox);
             Controls.Add(scannerId_Label);
             Controls.Add(scannerId_TextBox);
             Controls.Add(selectScanner_Button);
@@ -326,8 +292,6 @@
         private Button selectScanner_Button;
         private Label scannerId_Label;
         private TextBox scannerId_TextBox;
-        private CheckBox claimScanner_CheckBox;
-        private CheckBox registerEvents_CheckBox;
         private Button clearLogs_Button;
         private Button beep_Button;
     }

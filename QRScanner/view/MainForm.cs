@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QRScanner.controller;
+using QRScanner.events;
 using QRScanner.Exceptions;
 using QRScanner.model;
 using QRScanner.service;
@@ -18,7 +20,7 @@ namespace QRScanner.view
     {
         #region Attributes and instances
 
-        private Logger _logger = Logger.Instance;
+        private QRScannerLogger _qrScannerLogger = QRScannerLogger.Instance;
         private QRScannerService _qrScannerService = QRScannerService.Instance;
 
         #endregion
@@ -26,7 +28,7 @@ namespace QRScanner.view
         public MainForm()
         {
             InitializeComponent();
-            setDefaultOperations();
+            SetDefaultOperations();
         }
 
         #region Buttons
@@ -39,32 +41,39 @@ namespace QRScanner.view
 
             if (success)
             {
-                enableOperations(true);
+                SubscribeToQRCodeDecoded();
+                startService_Button.Enabled = false;
+                EnableOperations(true);
 
                 detectedScanners_Label.Text = $"Detected Scanners: {_qrScannerService.ScannerController.DetectedScanners.Count}";
                 selectedScanner_Label.Text = $"Selected Scanner: {_qrScannerService.ScannerController.SelectedScanner.ScannerID}";
 
-                fillScannersTable();
+                FillScannersTable();
             }
         }
 
-        private void stopServiceButton_Click(object sender, EventArgs e)
+        private async void stopServiceButton_Click(object sender, EventArgs e)
         {
-            bool success = _qrScannerService.StopScanning();
+            bool success = await _qrScannerService.StopScanningAsync();
 
             UpdateLogs();
 
             if (success)
             {
-                clearScannersTable();
-                enableOperations(false);
-                setDefaultOperations();
+                UnsubscribeToQRCodeDecoded();
+
+                InvokeUI(() =>
+                {
+                    ClearScannersTable();
+                    EnableOperations(false);
+                    SetDefaultOperations();
+                });
             }
         }
 
         private void selectScannerButton_Click(object sender, EventArgs e)
         {
-            int scannerId = getScannerIdInput();
+            int scannerId = GetScannerIdInput();
             if (scannerId == -1)
             {
                 return;
@@ -75,33 +84,31 @@ namespace QRScanner.view
                 _qrScannerService.ScannerController.SelectScannerById(scannerId);
 
                 MessageBox.Show($"Scanner with ID {scannerId} selected succesfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _logger.LogInfo($"Scanner with ID {scannerId} selected succcesfully.");
+                _qrScannerLogger.LogInfo($"Scanner with ID {scannerId} selected succcesfully.");
 
                 UpdateLogs();
 
                 scannerId_TextBox.Clear();
 
-                registerEvents_CheckBox.Checked = false;
-                claimScanner_CheckBox.Checked = false;
                 selectedScanner_Label.Text = $"Selected Scanner: {scannerId}";
             }
             catch (ScannerNotFoundException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _logger.LogError(ex.Message);
+                _qrScannerLogger.LogError(ex.Message);
                 UpdateLogs();
             }
             catch (ScannerAlreadySelectedException ex)
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                _logger.LogError(ex.Message);
+                _qrScannerLogger.LogError(ex.Message);
                 UpdateLogs();
             }
         }
 
         private void clearLogsButton_Click(object sender, EventArgs e)
         {
-            _logger.ClearLogs();
+            _qrScannerLogger.ClearLogs();
             UpdateLogs();
         }
 
@@ -109,83 +116,11 @@ namespace QRScanner.view
         {
             try
             {
-                _qrScannerService.ScannerController.BeepScanner();
+                _qrScannerService.ScannerController.BeepScanner(true);
             }
             catch (CommandExecutionFailedException ex)
             {
-                _logger.LogError(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Checkboxes
-
-        private void registerEventsCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (registerEvents_CheckBox.Checked)
-            {
-                try
-                {
-                    _qrScannerService.ScannerController.RegisterForAllEvents();
-
-                    _logger.LogInfo("Registering for all events...");
-                    UpdateLogs();
-                }
-                catch (CommandExecutionFailedException ex)
-                {
-                    _logger.LogError(ex.Message);
-                    UpdateLogs();
-                }
-            }
-            else
-            {
-                try
-                {
-                    _qrScannerService.ScannerController.UnregisterForAllEvents();
-
-                    _logger.LogInfo("Unregistering for all events...");
-                    UpdateLogs();
-                }
-                catch (CommandExecutionFailedException ex)
-                {
-                    _logger.LogError(ex.Message);
-                    UpdateLogs();
-                }
-            }
-        }
-
-        private void claimScannerCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (claimScanner_CheckBox.Checked)
-            {
-                try
-                {
-                    _qrScannerService.ScannerController.ClaimScanner();
-
-                    _logger.LogInfo("Scanner claimed.");
-                    UpdateLogs();
-                }
-                catch (CommandExecutionFailedException ex)
-                {
-                    _logger.LogError(ex.Message);
-                    UpdateLogs();
-                }
-            }
-            else
-            {
-                try
-                {
-                    _qrScannerService.ScannerController.ReleaseScanner();
-
-                    _logger.LogInfo("Scanner released.");
-                    UpdateLogs();
-                }
-                catch (CommandExecutionFailedException ex)
-                {
-                    _logger.LogError(ex.Message);
-                    UpdateLogs();
-                }
+                _qrScannerLogger.LogError(ex.Message);
             }
         }
 
@@ -193,7 +128,7 @@ namespace QRScanner.view
 
         #region Input related
 
-        private int getScannerIdInput()
+        private int GetScannerIdInput()
         {
             // Get the raw input from the TextBox
             string rawInputId = scannerId_TextBox.Text.Trim();
@@ -202,7 +137,7 @@ namespace QRScanner.view
             if (string.IsNullOrWhiteSpace(rawInputId))
             {
                 MessageBox.Show("Please enter a scanner ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                _logger.LogWarning("The scanner ID input is empty.");
+                _qrScannerLogger.LogWarning("The scanner ID input is empty.");
                 return -1; // Return -1 to indicate invalid input
             }
 
@@ -210,7 +145,7 @@ namespace QRScanner.view
             if (!int.TryParse(rawInputId, out int scannerId))
             {
                 MessageBox.Show("The scanner ID must be a valid number.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                _logger.LogWarning($"The scanner ID must be a valid number: '{rawInputId}'");
+                _qrScannerLogger.LogWarning($"The scanner ID must be a valid number: '{rawInputId}'");
                 scannerId_TextBox.Clear(); // Clear the invalid input
                 return -1;
             }
@@ -219,7 +154,7 @@ namespace QRScanner.view
             if (scannerId <= 0)
             {
                 MessageBox.Show("The scanner ID must be a positive number.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                _logger.LogWarning($"The scanner ID must be a positive number: '{scannerId}'.");
+                _qrScannerLogger.LogWarning($"The scanner ID must be a positive number: '{scannerId}'.");
                 scannerId_TextBox.Clear();
                 return -1;
             }
@@ -238,33 +173,59 @@ namespace QRScanner.view
 
         #region UI related
 
-        private void setDefaultOperations()
+        private void SetDefaultOperations()
         {
-            detectedScanners_Label.Text = "Detected Scanners: 0";
-            selectedScanner_Label.Text = "Selected Scanner: None";
-            scannerId_TextBox.Clear();
-        }
-
-        private void enableOperations(bool enable)
-        {
-            stopService_Button.Enabled = enable;
-            registerEvents_CheckBox.Enabled = enable;
-            claimScanner_CheckBox.Enabled = enable;
-            scannerId_TextBox.Enabled = enable;
-            selectScanner_Button.Enabled = enable;
-            beep_Button.Enabled = enable;
-        }
-
-        public void UpdateLogs()
-        {
-            logs_TextBox.Clear();
-            foreach (string log in _logger.GetLogs())
+            if (startService_Button.InvokeRequired ||
+                detectedScanners_Label.InvokeRequired ||
+                selectedScanner_Label.InvokeRequired ||
+                scannerId_TextBox.InvokeRequired)
             {
-                logs_TextBox.AppendText(log + Environment.NewLine);
+                startService_Button.Invoke(new Action(SetDefaultOperations));
+            }
+            else
+            {
+                startService_Button.Enabled = true;
+                detectedScanners_Label.Text = "Detected Scanners: 0";
+                selectedScanner_Label.Text = "Selected Scanner: None";
+                scannerId_TextBox.Clear();
             }
         }
 
-        private void fillScannersTable()
+        private void EnableOperations(bool enable)
+        {
+            if (stopService_Button.InvokeRequired ||
+                scannerId_TextBox.InvokeRequired ||
+                selectScanner_Button.InvokeRequired ||
+                beep_Button.InvokeRequired)
+            {
+                stopService_Button.Invoke(new Action(() => EnableOperations(enable)));
+            }
+            else
+            {
+                stopService_Button.Enabled = enable;
+                scannerId_TextBox.Enabled = enable;
+                selectScanner_Button.Enabled = enable;
+                beep_Button.Enabled = enable;
+            }
+        }
+
+        private void UpdateLogs()
+        {
+            if (logs_TextBox.InvokeRequired)
+            {
+                logs_TextBox.Invoke(new Action(UpdateLogs));
+            }
+            else
+            {
+                logs_TextBox.Clear();
+                foreach (string log in _qrScannerLogger.GetLogs())
+                {
+                    logs_TextBox.AppendText(log + Environment.NewLine);
+                }
+            }
+        }
+
+        private void FillScannersTable()
         {
             detectedScanners_DataGridView.Rows.Clear();
 
@@ -284,11 +245,58 @@ namespace QRScanner.view
             }
         }
 
-        private void clearScannersTable()
+        private void ClearScannersTable()
         {
-            detectedScanners_DataGridView.Rows.Clear();
+            if (detectedScanners_DataGridView.InvokeRequired)
+            {
+                detectedScanners_DataGridView.Invoke(new Action(ClearScannersTable));
+            }
+            else
+            {
+                detectedScanners_DataGridView.Rows.Clear();
+            }
+        }
+
+        private void InvokeUI(Action action)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+
+        #endregion
+
+        #region Events Handling
+
+        private void SubscribeToQRCodeDecoded()
+        {
+            // Subscribes to QRCodeDecoded event from QR Scanner Service
+            _qrScannerService.QRCodeDecoded += OnQRCodeDecoded;
+        }
+
+        private void UnsubscribeToQRCodeDecoded()
+        {
+            // Unsubscribes to QRCodeDecoded event from QR Scanner Service
+            _qrScannerService.QRCodeDecoded -= OnQRCodeDecoded;
+        }
+
+        private void OnQRCodeDecoded(object sender, BarcodeScannedEventArgs e)
+        {
+            _qrScannerLogger.LogInfo($"QR Scanned: {e.DecodedDataLabel}");
+            UpdateLogs();
         }
 
         #endregion
+
+        private void scannerId_TextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

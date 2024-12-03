@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QRScanner.Exceptions;
 
 namespace QRScanner.events
 {
@@ -43,6 +44,14 @@ namespace QRScanner.events
         /// </remarks>
         public string RawXml { get; }
 
+        /// <summary>
+        /// Gets the decoded label or content of the scanned barcode in human-readable format.
+        /// </summary>
+        /// <remarks>
+        /// This property contains the decoded data from the hexadecimal format of <see cref="DataLabel"/>.
+        /// </remarks>
+        public string DecodedDataLabel { get; set; }
+
         #endregion
 
         /// <summary>
@@ -56,6 +65,38 @@ namespace QRScanner.events
             DataType = dataType;
             DataLabel = dataLabel;
             RawXml = rawXml;
+            DecodeDataLabel(dataLabel);
+        }
+
+        /// <summary>
+        /// Decodes a hexadecimal dataLabel string into a readable ASCII string.
+        /// </summary>
+        /// <param name="dataLabel">The hexadecimal dataLabel string, with each value prefixed by "0x".</param>
+        /// <returns>The decoded ASCII string.</returns>
+        private void DecodeDataLabel(string dataLabel)
+        {
+            if (string.IsNullOrWhiteSpace(dataLabel))
+                throw new DataLabelNotFoundException();
+
+            // Split the dataLabel into individual hex values (e.g., "0x30", "0x31")
+            string[] hexValues = dataLabel.Split(' ');
+
+            // Initialize a StringBuilder to store the decoded string
+            StringBuilder decodedBuilder = new StringBuilder();
+
+            // Process each hex value
+            foreach (string hex in hexValues)
+            {
+                // Remove the "0x" prefix and parse the value
+                string hexValue = hex.Replace("0x", "");
+                int byteValue = Convert.ToInt32(hexValue, 16);
+
+                // Convert the byte to a character and append it to the result
+                decodedBuilder.Append((char)byteValue);
+            }
+
+            // Sets DecodedDataLabel
+            DecodedDataLabel = decodedBuilder.ToString();
         }
     }
 }

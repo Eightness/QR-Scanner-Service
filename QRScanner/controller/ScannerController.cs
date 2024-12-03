@@ -5,6 +5,7 @@ using QRScanner.events;
 using QRScanner.Exceptions;
 using QRScanner.model;
 using QRScanner.utility;
+using Windows.Security.Authentication.OnlineId;
 
 namespace QRScanner.controller
 {
@@ -63,6 +64,8 @@ namespace QRScanner.controller
             if (result.Status != 0)
                 throw new FailedToOpenCoreScannerAPIException(result.StatusMessage);
 
+            SubscribeToBarcodeEvent();
+
             return result;
         }
 
@@ -89,6 +92,8 @@ namespace QRScanner.controller
 
             if (result.Status != 0)
                 throw new FailedToCloseCoreScannerAPIException(result.StatusMessage);
+
+            UnsubscribeToBarcodeEvent();
 
             return result;
         }
@@ -174,9 +179,6 @@ namespace QRScanner.controller
             if (result.Status != 0)
                 throw new CommandExecutionFailedException(OpcodesHandler.REGISTER_FOR_EVENTS, "6 and 1,2,4,8,16,32", result.StatusMessage);
 
-            // Attach the barcode event handler
-            _coreScanner.BarcodeEvent += BarcodeEventHandler;
-
             return result;
         }
 
@@ -199,7 +201,7 @@ namespace QRScanner.controller
         {
             string inXml = "<inArgs>" +
                            "<cmdArgs>" +
-                           "<arg-int>6</arg-int>" + // Unregister all events
+                           "<arg-int>1</arg-int>" + // Unregister all events
                            "</cmdArgs>" +
                            "</inArgs>";
 
@@ -270,6 +272,27 @@ namespace QRScanner.controller
 
             string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID></inArgs>";
             _coreScanner.ExecCommand(OpcodesHandler.RELEASE_DEVICE, ref inXml, out string outXml, out int status);
+
+            CommandResult result = new CommandResult(status, outXml);
+
+            if (result.Status != 0)
+                throw new CommandExecutionFailedException(OpcodesHandler.RELEASE_DEVICE, $"{SelectedScanner.ScannerID}", result.StatusMessage);
+
+            return result;
+        }
+
+        public CommandResult EnableScan(bool enable)
+        {
+            ValidateScanner(SelectedScanner);
+
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID></inArgs>";
+            string outXml;
+            int status;
+
+            if (enable)
+                _coreScanner.ExecCommand(OpcodesHandler.SCAN_ENABLE, ref inXml, out outXml, out status);
+            else
+                _coreScanner.ExecCommand(OpcodesHandler.SCAN_DISABLE, ref inXml, out outXml, out status);
 
             CommandResult result = new CommandResult(status, outXml);
 
@@ -363,14 +386,21 @@ namespace QRScanner.controller
         /// Thrown when the API command to restart the scanner fails. The exception includes details about the failed command, 
         /// such as the opcode, scanner ID, and the error message.
         /// </exception>
-        public CommandResult BeepScanner()
+        public CommandResult BeepScanner(bool scanning)
         {
             ValidateScanner(SelectedScanner);
+
+            string actionValue;
+
+            if (scanning)
+                actionValue = "0";
+            else
+                actionValue = "5";
 
             string inXml = "<inArgs>" +
                                 $"<scannerID>{SelectedScanner.ScannerID}</scannerID>" + // The scanner you need to beep
                                 "<cmdArgs>" +
-                                    $"<arg-int>25</arg-int>" + // Low-high-low beep
+                                    $"<arg-int>{actionValue}</arg-int>" + // Beep type, depends on if starts / stops scanning
                                 "</cmdArgs>" +
                             "</inArgs>";
 
@@ -448,6 +478,10 @@ namespace QRScanner.controller
                 throw new SelectedScannerIsNullException();
         }
 
+        #endregion
+
+        #region Events Handling
+
         /// <summary>
         /// Processes barcode events raised by the scanner and extracts relevant barcode data.
         /// </summary>
@@ -484,12 +518,28 @@ namespace QRScanner.controller
                 int dataType = int.Parse(document.Descendants("datatype").First().Value);
                 string dataLabel = document.Descendants("datalabel").First().Value;
 
-                BarcodeScanned?.Invoke(this, new BarcodeScannedEventArgs(dataType, dataLabel, barcodeData));
+                var myArgs = new BarcodeScannedEventArgs(dataType, dataLabel, barcodeData);
+
+                BarcodeScanned.Invoke(this, myArgs);
             }
-            catch (Exception ex)
+            catch (DataLabelNotFoundException e)
             {
-                Console.WriteLine($"Error processing barcode data: {ex.Message}");
+                Console.WriteLine(e.Message);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error processing barcode data: {e.Message}");
+            }
+        }
+
+        private void SubscribeToBarcodeEvent()
+        {
+            _coreScanner.BarcodeEvent += BarcodeEventHandler;
+        }
+
+        private void UnsubscribeToBarcodeEvent()
+        {
+            _coreScanner.BarcodeEvent -= BarcodeEventHandler;
         }
 
         #endregion
