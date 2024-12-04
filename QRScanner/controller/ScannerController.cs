@@ -20,6 +20,7 @@ namespace QRScanner.controller
         private readonly CCoreScanner _coreScanner; // CoreScanner SDK instance
         public List<Scanner> DetectedScanners;
         public Scanner SelectedScanner;
+        private bool isOpen = false;
 
         /// <summary>
         /// Event triggered when a barcode is scanned.
@@ -41,11 +42,9 @@ namespace QRScanner.controller
 
         /// <summary>
         /// Initializes the Zebra Scanner SDK by establishing a connection with the CoreScanner API.
-        /// This method enables communication with Zebra scanners by opening the CoreScanner SDK.
         /// </summary>
         /// <remarks>
         /// This method is required before performing any operations with the scanner, such as detecting devices or executing commands.
-        /// If the operation fails, an exception will be thrown with details about the failure.
         /// </remarks>
         /// <returns>
         /// A <see cref="CommandResult"/> object containing the status of the operation and any relevant XML output.
@@ -55,6 +54,9 @@ namespace QRScanner.controller
         /// </exception>
         public CommandResult OpenCoreScannerAPI()
         {
+            if (IsOpen())
+                return new CommandResult(0);    // If the connection is already open, skip the remaining code and return success.
+
             short[] scannerTypes = { 1 }; // 1 for all scanner types
             short numberOfScannerTypes = 1;
             _coreScanner.Open(0, scannerTypes, numberOfScannerTypes, out int status);
@@ -64,6 +66,7 @@ namespace QRScanner.controller
             if (result.Status != 0)
                 throw new FailedToOpenCoreScannerAPIException(result.StatusMessage);
 
+            isOpen = true;
             SubscribeToBarcodeEvent();
 
             return result;
@@ -71,12 +74,9 @@ namespace QRScanner.controller
 
         /// <summary>
         /// Terminates the Zebra Scanner SDK by closing the connection with the CoreScanner API.
-        /// This method cleans up resources and ensures that the connection to the SDK is properly closed.
         /// </summary>
         /// <remarks>
-        /// It is recommended to call this method when the application no longer needs to interact with the scanner
-        /// or before shutting down the application to release the SDK's resources.
-        /// If the operation fails, an exception will be thrown with details about the failure.
+        /// This method cleans up resources and ensures that the connection to the SDK is properly closed.
         /// </remarks>
         /// <returns>
         /// A <see cref="CommandResult"/> object containing the status of the operation.
@@ -93,6 +93,7 @@ namespace QRScanner.controller
             if (result.Status != 0)
                 throw new FailedToCloseCoreScannerAPIException(result.StatusMessage);
 
+            isOpen = false;
             UnsubscribeToBarcodeEvent();
 
             return result;
@@ -302,22 +303,33 @@ namespace QRScanner.controller
             return result;
         }
 
+        public CommandResult EnableLED(bool enable)
+        {
+            ValidateScanner(SelectedScanner);
+
+            int actionID = 22;              // Controls LED
+            int ledID = 1;                  // Main LED
+            int ledState = enable ? 1 : 0;  // 1 = turn on, 0 = turn off
+
+            string inXml = $"<inArgs><scannerID>{SelectedScanner.ScannerID}</scannerID><cmdArgs><arg-int>{actionID}</arg-int><arg-int>{ledID}</arg-int><arg-int>{ledState}</arg-int></cmdArgs></inArgs>";
+            string outXml;
+            int status;
+
+            _coreScanner.ExecCommand(OpcodesHandler.SET_ACTION, ref inXml, out outXml, out status);
+
+            CommandResult result = new CommandResult(status, outXml);
+
+            if (result.Status != 0)
+                throw new CommandExecutionFailedException(OpcodesHandler.SET_ACTION, $"{SelectedScanner.ScannerID}", result.StatusMessage);
+
+            return result;
+        }
+
+
         #endregion
 
         #region Operational methods
 
-        /// <summary>
-        /// Selects a scanner from the list of detected scanners by its unique ID.
-        /// </summary>
-        /// <remarks>
-        /// This method searches the list of previously detected scanners and assigns the scanner
-        /// with the specified ID as the currently selected scanner. If no matching scanner is found,
-        /// an exception is thrown to indicate the error.
-        /// </remarks>
-        /// <param name="scannerId">The unique ID of the scanner to be selected.</param>
-        /// <exception cref="ScannerNotFoundException">
-        /// Thrown when no scanner with the specified ID is found in the list of detected scanners.
-        /// </exception>
         public void SelectScannerById(int scannerId)
         {
             if (SelectedScanner.ScannerID == scannerId)
@@ -338,23 +350,6 @@ namespace QRScanner.controller
                 throw new ScannerNotFoundException(scannerId);
         }
 
-        /// <summary>
-        /// Restarts the currently selected scanner.
-        /// </summary>
-        /// <remarks>
-        /// This method sends a command to reboot the selected scanner. Restarting a scanner is useful for resetting 
-        /// its state, applying certain configurations, or resolving potential operational issues.
-        /// </remarks>
-        /// <returns>
-        /// A <see cref="CommandResult"/> object containing the status of the restart operation and any relevant XML output.
-        /// </returns>
-        /// <exception cref="SelectedScannerIsNullException">
-        /// Thrown when no scanner is currently selected. Ensure a scanner is selected before calling this method.
-        /// </exception>
-        /// <exception cref="CommandExecutionFailedException">
-        /// Thrown when the API command to restart the scanner fails. The exception includes details about the failed command, 
-        /// such as the opcode, scanner ID, and the error message.
-        /// </exception>
         public CommandResult RestartScanner()
         {
             ValidateScanner(SelectedScanner);
@@ -370,37 +365,14 @@ namespace QRScanner.controller
             return result;
         }
 
-        /// <summary>
-        /// Beeps the scanner.
-        /// </summary>
-        /// <remarks>
-        /// Serves as a test to see if the scanner is actually connected and selected.
-        /// </remarks>
-        /// <returns>
-        /// A <see cref="CommandResult"/> object containing the status of the restart operation and any relevant XML output.
-        /// </returns>
-        /// <exception cref="SelectedScannerIsNullException">
-        /// Thrown when no scanner is currently selected. Ensure a scanner is selected before calling this method.
-        /// </exception>
-        /// <exception cref="CommandExecutionFailedException">
-        /// Thrown when the API command to restart the scanner fails. The exception includes details about the failed command, 
-        /// such as the opcode, scanner ID, and the error message.
-        /// </exception>
-        public CommandResult BeepScanner(bool scanning)
+        public CommandResult BeepScanner(string actionValue)
         {
             ValidateScanner(SelectedScanner);
-
-            string actionValue;
-
-            if (scanning)
-                actionValue = "0";
-            else
-                actionValue = "5";
 
             string inXml = "<inArgs>" +
                                 $"<scannerID>{SelectedScanner.ScannerID}</scannerID>" + // The scanner you need to beep
                                 "<cmdArgs>" +
-                                    $"<arg-int>{actionValue}</arg-int>" + // Beep type, depends on if starts / stops scanning
+                                    $"<arg-int>{actionValue}</arg-int>" + // Beep type
                                 "</cmdArgs>" +
                             "</inArgs>";
 
@@ -409,36 +381,11 @@ namespace QRScanner.controller
             CommandResult result = new CommandResult(status, outXml);
 
             if (result.Status != 0)
-                throw new CommandExecutionFailedException(OpcodesHandler.REBOOT_SCANNER, $"{SelectedScanner.ScannerID}", result.StatusMessage);
+                throw new CommandExecutionFailedException(OpcodesHandler.SET_ACTION, $"{SelectedScanner.ScannerID}", result.StatusMessage);
 
             return result;
         }
 
-        /// <summary>
-        /// Executes a specific command on the currently selected scanner.
-        /// </summary>
-        /// <remarks>
-        /// This method sends a command to the selected scanner using the specified operation code (opcode)
-        /// and command arguments. The response from the scanner, including the status and any output XML, 
-        /// is encapsulated in a <see cref="CommandResult"/> object.
-        /// </remarks>
-        /// <param name="opcode">
-        /// The operation code representing the command to be executed. Refer to <see cref="OpcodesHandler"/>
-        /// for a list of valid opcodes.
-        /// </param>
-        /// <param name="args">
-        /// The arguments required by the command, formatted as a string in XML.
-        /// </param>
-        /// <returns>
-        /// A <see cref="CommandResult"/> object containing the status of the command execution and any relevant XML output.
-        /// </returns>
-        /// <exception cref="SelectedScannerIsNullException">
-        /// Thrown when no scanner is selected. Ensure a scanner is selected before attempting to execute a command.
-        /// </exception>
-        /// <exception cref="CommandExecutionFailedException">
-        /// Thrown when the command execution fails. This exception provides details about the opcode,
-        /// the arguments used, and the associated error message.
-        /// </exception>
         public CommandResult CommandScanner(int opcode, string args)
         {
             ValidateScanner(SelectedScanner);
@@ -458,58 +405,21 @@ namespace QRScanner.controller
 
         #region Utility methods
 
-        /// <summary>
-        /// Ensures that the provided scanner object is not null.
-        /// </summary>
-        /// <remarks>
-        /// This validation is used to prevent operations from being executed on a null scanner object.
-        /// It is commonly called before performing any actions that require a valid, selected scanner.
-        /// </remarks>
-        /// <param name="scanner">
-        /// The <see cref="Scanner"/> object to validate. This represents the currently selected scanner.
-        /// </param>
-        /// <exception cref="SelectedScannerIsNullException">
-        /// Thrown when the provided <paramref name="scanner"/> is null. 
-        /// Ensure a scanner is selected before invoking this method.
-        /// </exception>
         private static void ValidateScanner(Scanner scanner)
         {
             if (scanner == null)
                 throw new SelectedScannerIsNullException();
         }
 
+        public bool IsOpen()
+        {
+            return isOpen;
+        }
+
         #endregion
 
         #region Events Handling
 
-        /// <summary>
-        /// Processes barcode events raised by the scanner and extracts relevant barcode data.
-        /// </summary>
-        /// <remarks>
-        /// This method is triggered when a barcode is scanned. It parses the XML data received from the scanner,
-        /// extracts the barcode type and label, and raises the <see cref="BarcodeScanned"/> event with the parsed details.
-        /// </remarks>
-        /// <param name="eventType">
-        /// The type of the event raised by the scanner. This parameter is typically used to differentiate between 
-        /// various event types, although it is not directly utilized in this implementation.
-        /// </param>
-        /// <param name="barcodeData">
-        /// A reference to the XML string containing the barcode data provided by the scanner.
-        /// This XML data is parsed to extract the barcode type and label.
-        /// </param>
-        /// <exception cref="Exception">
-        /// Logs any exceptions encountered during the processing of barcode data to the console.
-        /// The method ensures that the application continues running despite errors.
-        /// </exception>
-        /// <example>
-        /// Example barcode event data processed by this method:
-        /// <code>
-        /// <barcodeEvent>
-        ///   <datatype>1</datatype>
-        ///   <datalabel>1234567890</datalabel>
-        /// </barcodeEvent>
-        /// </code>
-        /// </example>
         private void BarcodeEventHandler(short eventType, ref string barcodeData)
         {
             try

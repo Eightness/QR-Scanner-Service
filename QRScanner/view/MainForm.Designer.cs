@@ -49,13 +49,15 @@
             scannerId_TextBox = new TextBox();
             clearLogs_Button = new Button();
             beep_Button = new Button();
+            diagnosis_Button = new Button();
             ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).BeginInit();
             SuspendLayout();
             // 
             // startService_Button
             // 
+            startService_Button.Enabled = false;
             startService_Button.Font = new Font("Segoe UI", 12F);
-            startService_Button.Location = new Point(12, 12);
+            startService_Button.Location = new Point(357, 12);
             startService_Button.Name = "startService_Button";
             startService_Button.Size = new Size(125, 50);
             startService_Button.TabIndex = 0;
@@ -67,7 +69,7 @@
             // 
             stopService_Button.Enabled = false;
             stopService_Button.Font = new Font("Segoe UI", 12F);
-            stopService_Button.Location = new Point(143, 12);
+            stopService_Button.Location = new Point(502, 12);
             stopService_Button.Name = "stopService_Button";
             stopService_Button.Size = new Size(125, 50);
             stopService_Button.TabIndex = 1;
@@ -77,21 +79,21 @@
             // 
             // logs_TextBox
             // 
-            logs_TextBox.Location = new Point(12, 99);
+            logs_TextBox.Location = new Point(12, 110);
             logs_TextBox.Multiline = true;
             logs_TextBox.Name = "logs_TextBox";
             logs_TextBox.ReadOnly = true;
             logs_TextBox.ScrollBars = ScrollBars.Vertical;
-            logs_TextBox.Size = new Size(400, 250);
+            logs_TextBox.Size = new Size(470, 250);
             logs_TextBox.TabIndex = 2;
             // 
             // detectedScanners_DataGridView
             // 
             detectedScanners_DataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             detectedScanners_DataGridView.Columns.AddRange(new DataGridViewColumn[] { scannerId, scannerType, serialNumber, GUID, VID, PID, modelNumber, dom, firmware });
-            detectedScanners_DataGridView.Location = new Point(422, 99);
+            detectedScanners_DataGridView.Location = new Point(502, 110);
             detectedScanners_DataGridView.Name = "detectedScanners_DataGridView";
-            detectedScanners_DataGridView.Size = new Size(400, 250);
+            detectedScanners_DataGridView.Size = new Size(470, 250);
             detectedScanners_DataGridView.TabIndex = 4;
             // 
             // scannerId
@@ -161,7 +163,7 @@
             // 
             logs_Label.AutoSize = true;
             logs_Label.Font = new Font("Segoe UI", 12F);
-            logs_Label.Location = new Point(12, 75);
+            logs_Label.Location = new Point(12, 86);
             logs_Label.Name = "logs_Label";
             logs_Label.Size = new Size(43, 21);
             logs_Label.TabIndex = 5;
@@ -171,7 +173,7 @@
             // 
             detectedScanners_Label.AutoSize = true;
             detectedScanners_Label.Font = new Font("Segoe UI", 12F);
-            detectedScanners_Label.Location = new Point(422, 75);
+            detectedScanners_Label.Location = new Point(502, 86);
             detectedScanners_Label.Name = "detectedScanners_Label";
             detectedScanners_Label.Size = new Size(154, 21);
             detectedScanners_Label.TabIndex = 6;
@@ -181,7 +183,7 @@
             // 
             selectedScanner_Label.AutoSize = true;
             selectedScanner_Label.Font = new Font("Segoe UI", 12F);
-            selectedScanner_Label.Location = new Point(422, 352);
+            selectedScanner_Label.Location = new Point(662, 86);
             selectedScanner_Label.Name = "selectedScanner_Label";
             selectedScanner_Label.Size = new Size(173, 21);
             selectedScanner_Label.TabIndex = 7;
@@ -191,7 +193,7 @@
             // 
             selectScanner_Button.Enabled = false;
             selectScanner_Button.Font = new Font("Segoe UI", 12F);
-            selectScanner_Button.Location = new Point(422, 12);
+            selectScanner_Button.Location = new Point(502, 366);
             selectScanner_Button.Name = "selectScanner_Button";
             selectScanner_Button.Size = new Size(125, 50);
             selectScanner_Button.TabIndex = 8;
@@ -204,7 +206,7 @@
             scannerId_Label.AutoSize = true;
             scannerId_Label.Font = new Font("Segoe UI", 12F);
             scannerId_Label.ImeMode = ImeMode.NoControl;
-            scannerId_Label.Location = new Point(553, 12);
+            scannerId_Label.Location = new Point(633, 363);
             scannerId_Label.Name = "scannerId_Label";
             scannerId_Label.Size = new Size(85, 21);
             scannerId_Label.TabIndex = 25;
@@ -214,7 +216,7 @@
             // 
             scannerId_TextBox.Enabled = false;
             scannerId_TextBox.Font = new Font("Segoe UI", 12F);
-            scannerId_TextBox.Location = new Point(553, 33);
+            scannerId_TextBox.Location = new Point(633, 387);
             scannerId_TextBox.MaxLength = 10;
             scannerId_TextBox.Name = "scannerId_TextBox";
             scannerId_TextBox.Size = new Size(91, 29);
@@ -224,7 +226,7 @@
             // clearLogs_Button
             // 
             clearLogs_Button.Font = new Font("Segoe UI", 12F);
-            clearLogs_Button.Location = new Point(12, 355);
+            clearLogs_Button.Location = new Point(12, 366);
             clearLogs_Button.Name = "clearLogs_Button";
             clearLogs_Button.Size = new Size(125, 50);
             clearLogs_Button.TabIndex = 28;
@@ -237,7 +239,7 @@
             beep_Button.Enabled = false;
             beep_Button.Font = new Font("Wingdings", 20F, FontStyle.Bold, GraphicsUnit.Point, 2);
             beep_Button.ForeColor = SystemColors.ControlDarkDark;
-            beep_Button.Location = new Point(772, 12);
+            beep_Button.Location = new Point(922, 366);
             beep_Button.Name = "beep_Button";
             beep_Button.Size = new Size(50, 50);
             beep_Button.TabIndex = 29;
@@ -245,11 +247,23 @@
             beep_Button.UseVisualStyleBackColor = true;
             beep_Button.Click += beepButton_Click;
             // 
+            // diagnosis_Button
+            // 
+            diagnosis_Button.Font = new Font("Segoe UI", 12F);
+            diagnosis_Button.Location = new Point(12, 12);
+            diagnosis_Button.Name = "diagnosis_Button";
+            diagnosis_Button.Size = new Size(125, 50);
+            diagnosis_Button.TabIndex = 30;
+            diagnosis_Button.Text = "Diagnosis";
+            diagnosis_Button.UseVisualStyleBackColor = true;
+            diagnosis_Button.Click += diagnosisButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(834, 411);
+            ClientSize = new Size(984, 436);
+            Controls.Add(diagnosis_Button);
             Controls.Add(beep_Button);
             Controls.Add(clearLogs_Button);
             Controls.Add(scannerId_Label);
@@ -266,6 +280,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             Text = "QR Scanner Service";
+            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -294,5 +309,6 @@
         private TextBox scannerId_TextBox;
         private Button clearLogs_Button;
         private Button beep_Button;
+        private Button diagnosis_Button;
     }
 }

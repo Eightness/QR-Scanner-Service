@@ -33,6 +33,18 @@ namespace QRScanner.view
 
         #region Buttons
 
+        private async void diagnosisButton_Click(object sender, EventArgs e)
+        {
+            bool succesfullDiagnosis = await _qrScannerService.RunDiagnostics(5, 3000);
+
+            if (succesfullDiagnosis)
+                startService_Button.Enabled = true;
+            else
+                startService_Button.Enabled = false;
+
+            UpdateLogs();
+        }
+
         private void startServiceButton_Click(object sender, EventArgs e)
         {
             bool success = _qrScannerService.StartScanning();
@@ -116,7 +128,7 @@ namespace QRScanner.view
         {
             try
             {
-                _qrScannerService.ScannerController.BeepScanner(true);
+                _qrScannerService.ScannerController.BeepScanner("10");
             }
             catch (CommandExecutionFailedException ex)
             {
@@ -160,6 +172,7 @@ namespace QRScanner.view
             }
 
             // Return the valid scanner ID
+            scannerId_TextBox.Clear();
             return scannerId;
         }
 
@@ -184,7 +197,6 @@ namespace QRScanner.view
             }
             else
             {
-                startService_Button.Enabled = true;
                 detectedScanners_Label.Text = "Detected Scanners: 0";
                 selectedScanner_Label.Text = "Selected Scanner: None";
                 scannerId_TextBox.Clear();
@@ -294,7 +306,7 @@ namespace QRScanner.view
 
         #endregion
 
-        private void scannerId_TextBox_TextChanged(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
 
         }

@@ -22,3 +22,7 @@ C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-wi
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.genruntimeconfig.cache
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\ref\QRScanner.dll
 C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.Properties.Resources.resources
+C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\bin\Debug\net8.0-windows10.0.26100.0\System.CodeDom.dll
+C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\bin\Debug\net8.0-windows10.0.26100.0\System.Management.dll
+C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\bin\Debug\net8.0-windows10.0.26100.0\runtimes\win\lib\net8.0\System.Management.dll
+C:\Users\Usuario\Desktop\Github\QR-Scanner-Service\QRScanner\obj\Debug\net8.0-windows10.0.26100.0\QRScanner.csproj.AssemblyReference.cache

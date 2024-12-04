@@ -20,7 +20,7 @@ namespace QRScanner.Exceptions
     public class NoScannersFoundException : QRScannerException
     {
         public NoScannersFoundException()
-            : base("No scanners found in the provided XML.") { }
+            : base("No scanners found.") { }
 
         public NoScannersFoundException(string message)
             : base(message) { }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace QRScanner.model
 {
@@ -113,22 +114,24 @@ namespace QRScanner.model
         #region Methods
 
         /// <summary>
-        /// Displays the details of the scanner in a structured format on the console.
+        /// Get the details of the scanner in a structured and readable format.
         /// </summary>
-        public void DisplayDetails()
+        public string GetDetails()
         {
-            Console.WriteLine();
+            StringBuilder details = new StringBuilder();
 
-            Console.WriteLine("Scanner Details:");
-            Console.WriteLine($"Type: {scannerType}");
-            Console.WriteLine($"ID: {scannerID}");
-            Console.WriteLine($"Serial Number: {serialNumber}");
-            Console.WriteLine($"GUID: {guid}");
-            Console.WriteLine($"VID: {vid}");
-            Console.WriteLine($"PID: {pid}");
-            Console.WriteLine($"Model Number: {modelNumber}");
-            Console.WriteLine($"Date of Manufacture (DOM): {dom}");
-            Console.WriteLine($"Firmware: {firmware}");
+            details.AppendLine("");
+            details.AppendLine($"- Type: {ScannerType}");
+            details.AppendLine($"- ID: {ScannerID}");
+            details.AppendLine($"- Serial Number: {SerialNumber}");
+            details.AppendLine($"- GUID: {GUID}");
+            details.AppendLine($"- Vendor ID (VID): {VID}");
+            details.AppendLine($"- Product ID (PID): {PID}");
+            details.AppendLine($"- Model Number: {ModelNumber}");
+            details.AppendLine($"- Date of Manufacture (DOM): {DOM}");
+            details.Append($"- Firmware Version: {Firmware}");
+
+            return details.ToString();
         }
 
         #endregion
