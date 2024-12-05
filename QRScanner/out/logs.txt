@@ -873,3 +873,157 @@
 [38] [04/12/2024 16:56:51] [INFO]: Scanning stopped.
 [39] [04/12/2024 16:56:51] [INFO]: QR scanner service stopped.
 [40] [04/12/2024 16:56:51] [ERROR]: Error while stopping scanning: Command 1501 with args '1' failed. Details -> Status 112: Required device is unavailable.
+[1] [05/12/2024 09:04:56] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 09:04:56] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 09:04:56] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 09:04:56] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 09:04:56] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 09:04:56] [INFO]: Started monitoring scanner disconnection events...
+[7] [05/12/2024 09:04:56] [INFO]: Started monitoring scanner disconnection events...
+[8] [05/12/2024 09:04:56] [INFO]: Successfully registered for scanner events.
+[9] [05/12/2024 09:04:56] [INFO]: Diagnostics completed successfully.
+[10] [05/12/2024 09:05:13] [INFO]: Scanning...
+[11] [05/12/2024 09:06:17] [ERROR]: Error while stopping scanning: Command 6000 with args '1' failed. Details -> Status 112: Required device is unavailable.
+[12] [05/12/2024 09:06:21] [ERROR]: Error while stopping scanning: Command 6000 with args '1' failed. Details -> Status 112: Required device is unavailable.
+[13] [05/12/2024 09:06:22] [ERROR]: Error while stopping scanning: Command 6000 with args '1' failed. Details -> Status 112: Required device is unavailable.
+[14] [05/12/2024 09:06:23] [INFO]: Running diagnostics for QR scanner service...
+[15] [05/12/2024 09:06:23] [INFO]: CoreScanner API opened successfully.
+[16] [05/12/2024 09:06:23] [INFO]: Attempt 1/5: Trying to detect scanners...
+[17] [05/12/2024 09:06:23] [INFO]: Detected 1 scanner(s).
+[18] [05/12/2024 09:06:23] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[19] [05/12/2024 09:06:23] [INFO]: Started monitoring scanner disconnection events...
+[20] [05/12/2024 09:06:23] [INFO]: Started monitoring scanner disconnection events...
+[21] [05/12/2024 09:06:23] [INFO]: Successfully registered for scanner events.
+[22] [05/12/2024 09:06:23] [INFO]: Diagnostics completed successfully.
+[23] [05/12/2024 09:06:25] [INFO]: Scanning...
+[24] [05/12/2024 09:06:43] [INFO]: Scanning stopped.
+[25] [05/12/2024 09:06:43] [INFO]: QR scanner service stopped.
+[26] [05/12/2024 09:06:43] [INFO]: CoreScanner API closed.
+[1] [05/12/2024 11:09:18] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 11:09:18] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 11:09:18] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 11:09:18] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 11:09:18] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 11:09:18] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 11:09:18] [ERROR]: Diagnostics unsuccessful: Command 6000 with args '1' failed. Details -> Status 300: Malformed inXML.
+[1] [05/12/2024 11:32:53] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 11:32:53] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 11:32:53] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 11:32:53] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 11:32:53] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 11:32:53] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 11:32:53] [ERROR]: Diagnostics unsuccessful: Command 6000 with args '1' failed. Details -> Status 300: Malformed inXML.(LED)
+[1] [05/12/2024 11:35:34] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 11:35:34] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 11:35:34] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 11:35:34] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 11:35:34] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 11:35:34] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 11:35:34] [INFO]: Diagnostics completed successfully.
+[8] [05/12/2024 11:35:38] [INFO]: Scanning...
+[9] [05/12/2024 11:36:17] [INFO]: QR Scanned: 00000000410000000078
+[10] [05/12/2024 11:36:23] [INFO]: Scanning stopped.
+[11] [05/12/2024 11:36:23] [INFO]: QR scanner service stopped.
+[12] [05/12/2024 11:36:23] [INFO]: CoreScanner API closed.
+[1] [05/12/2024 11:38:22] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 11:38:22] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 11:38:22] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 11:38:23] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 11:38:23] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 11:38:23] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 11:38:23] [INFO]: Diagnostics completed successfully.
+[8] [05/12/2024 11:38:43] [INFO]: Scanning...
+[9] [05/12/2024 11:38:47] [INFO]: Scanning stopped.
+[10] [05/12/2024 11:38:47] [INFO]: QR scanner service stopped.
+[11] [05/12/2024 11:38:47] [INFO]: CoreScanner API closed.
+[1] [05/12/2024 16:46:45] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 16:46:45] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 16:46:45] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 16:46:45] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 16:46:45] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 16:46:45] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 16:46:45] [INFO]: Diagnostics completed successfully.
+[8] [05/12/2024 16:46:52] [INFO]: Scanning...
+[9] [05/12/2024 16:46:58] [INFO]: QR Scanned: 00000000410000000078
+[10] [05/12/2024 16:47:05] [INFO]: Scanning stopped.
+[11] [05/12/2024 16:47:05] [INFO]: QR scanner service stopped.
+[12] [05/12/2024 16:47:05] [INFO]: CoreScanner API closed.
+[1] [05/12/2024 16:49:26] [INFO]: Running diagnostics for QR scanner service...
+[2] [05/12/2024 16:49:26] [INFO]: CoreScanner API opened successfully.
+[3] [05/12/2024 16:49:26] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [05/12/2024 16:49:27] [INFO]: Detected 1 scanner(s).
+[5] [05/12/2024 16:49:27] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [05/12/2024 16:49:27] [INFO]: Successfully registered for scanner events.
+[7] [05/12/2024 16:49:27] [INFO]: Diagnostics completed successfully.

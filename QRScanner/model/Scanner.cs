@@ -116,7 +116,7 @@ namespace QRScanner.model
         /// <summary>
         /// Get the details of the scanner in a structured and readable format.
         /// </summary>
-        public string GetDetails()
+        public string GetScannerDetails()
         {
             StringBuilder details = new StringBuilder();
 
@@ -133,6 +133,34 @@ namespace QRScanner.model
 
             return details.ToString();
         }
+
+        /// <summary>
+        /// Get the details of all scanners in the list in a structured and readable format.
+        /// </summary>
+        /// <param name="scanners">The list of scanners to display details for.</param>
+        /// <returns>A string containing the details of all scanners.</returns>
+        public static string GetScannersDetails(List<Scanner> scanners)
+        {
+            if (scanners == null || scanners.Count == 0)
+            {
+                return "No scanners available.";
+            }
+
+            StringBuilder details = new StringBuilder();
+
+            details.AppendLine("Scanners Details:");
+            details.AppendLine(new string('-', 50)); // Separator for better readability
+
+            for (int i = 0; i < scanners.Count; i++)
+            {
+                details.AppendLine($"Scanner {i + 1}:");
+                details.AppendLine(scanners[i].GetScannerDetails());
+                details.AppendLine(new string('-', 50)); // Separator between scanners
+            }
+
+            return details.ToString();
+        }
+
 
         #endregion
     }

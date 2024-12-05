@@ -1,0 +1,13 @@
+﻿[*.cs]
+
+# CS8622: La nulabilidad de los tipos de referencia del tipo de parámetro no coincide con el delegado de destino (posiblemente debido a los atributos de nulabilidad).
+dotnet_diagnostic.CS8622.severity = silent
+
+# CS8618: Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador "required" o declararlo como un valor que acepta valores NULL.
+dotnet_diagnostic.CS8618.severity = silent
+
+# CS8601: Posible asignación de referencia nula
+dotnet_diagnostic.CS8601.severity = silent
+
+# CS8600: Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+dotnet_diagnostic.CS8600.severity = silent

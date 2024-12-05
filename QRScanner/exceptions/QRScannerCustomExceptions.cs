@@ -143,14 +143,14 @@ namespace QRScanner.Exceptions
     /// </summary>
     public class CommandExecutionFailedException : QRScannerException
     {
-        public CommandExecutionFailedException(int opcode, string args, string details)
-            : base($"Command {opcode} with args '{args}' failed. Details -> {details}") { }
+        public CommandExecutionFailedException(int opcode, string inXml, string details)
+            : base($"Command {opcode} with XML '{inXml}' failed. Details -> {details}") { }
 
         public CommandExecutionFailedException(string message)
             : base(message) { }
 
-        public CommandExecutionFailedException(int opcode, string args, string details, Exception innerException)
-            : base($"Command {opcode} with args '{args}' failed. Details: {details}", innerException) { }
+        public CommandExecutionFailedException(int opcode, string inXml, string details, Exception innerException)
+            : base($"Command {opcode} with XML '{inXml}' failed. Details: {details}", innerException) { }
     }
 
     /// <summary>
