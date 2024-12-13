@@ -15,6 +15,25 @@ namespace QRScanner.utility
     /// </remarks>
     public class XMLReader
     {
+        #region Singleton Implementation
+
+        // Lazy initialization of the singleton instance.
+        private static readonly Lazy<XMLReader> _instance = new Lazy<XMLReader>(() => new XMLReader());
+
+        /// <summary>
+        /// Private constructor to prevent external instantiation.
+        /// </summary>
+        private XMLReader()
+        {
+        }
+
+        /// <summary>
+        /// The single instance of the XMLReader class.
+        /// </summary>
+        public static XMLReader Instance => _instance.Value;
+
+        #endregion
+
         #region Methods
 
         /// <summary>

@@ -130,6 +130,7 @@ namespace QRScanner.model
             details.AppendLine($"- Model Number: {ModelNumber}");
             details.AppendLine($"- Date of Manufacture (DOM): {DOM}");
             details.Append($"- Firmware Version: {Firmware}");
+            details.AppendLine("");
 
             return details.ToString();
         }
@@ -143,7 +144,7 @@ namespace QRScanner.model
         {
             if (scanners == null || scanners.Count == 0)
             {
-                return "No scanners available.";
+                return "0 scanners.";
             }
 
             StringBuilder details = new StringBuilder();
@@ -160,7 +161,6 @@ namespace QRScanner.model
 
             return details.ToString();
         }
-
 
         #endregion
     }

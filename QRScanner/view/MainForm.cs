@@ -35,9 +35,9 @@ namespace QRScanner.view
 
         private async void diagnosisButton_Click(object sender, EventArgs e)
         {
-            bool succesfullDiagnosis = await _qrScannerService.RunDiagnostics(5, 3000);
+            DiagnosticsResult result = await _qrScannerService.RunDiagnostics(5, 3000);
 
-            if (succesfullDiagnosis)
+            if (result.Success)
                 startService_Button.Enabled = true;
             else
                 startService_Button.Enabled = false;

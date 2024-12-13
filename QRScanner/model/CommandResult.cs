@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using QRScanner.utility;
 
 namespace QRScanner.model
@@ -11,6 +12,11 @@ namespace QRScanner.model
     public class CommandResult
     {
         #region Attributes and instances
+
+        /// <summary>
+        /// A human-readable message describing the command.
+        /// </summary>
+        public string CommandName { get; private set; }
 
         /// <summary>
         /// The status code returned by the command.
@@ -35,7 +41,7 @@ namespace QRScanner.model
         /// <summary>
         /// XMLReader instance to process xml files.
         /// </summary>
-        private XMLReader xmlReader = new XMLReader();
+        private XMLReader xmlReader = XMLReader.Instance;
 
         #endregion
 
@@ -43,22 +49,29 @@ namespace QRScanner.model
         /// Default constructor initializing default values for the attributes.
         /// </summary>
         public CommandResult()
-            : this(-1, string.Empty, 0) { }
+            : this(string.Empty, -1, string.Empty, 0) { }
+
+        /// <summary>
+        /// Default constructor initializing default values for the attributes.
+        /// </summary>
+        public CommandResult(string commandName)
+            : this(commandName, -1, string.Empty, 0) { }
+
 
         /// <summary>
         /// Constructor for a result with only a status code.
         /// </summary>
         /// <param name="status">The status code returned by the command.</param>
-        public CommandResult(int status)
-            : this(status, string.Empty, 0) { }
+        public CommandResult(string commandName, int status)
+            : this(commandName, status, string.Empty, 0) { }
 
         /// <summary>
         /// Constructor for a result with a status code and output XML.
         /// </summary>
         /// <param name="status">The status code returned by the command.</param>
         /// <param name="outXml">The output XML returned by the command.</param>
-        public CommandResult(int status, string outXml)
-            : this(status, outXml, 0) { }
+        public CommandResult(string commandName, int status, string outXml)
+            : this(commandName, status, outXml, 0) { }
 
         /// <summary>
         /// Constructor for a result with a status code, output XML, and number of scanners.
@@ -66,8 +79,9 @@ namespace QRScanner.model
         /// <param name="status">The status code returned by the command.</param>
         /// <param name="outXml">The output XML returned by the command.</param>
         /// <param name="numberOfScanners">The number of scanners associated with the command.</param>
-        public CommandResult(int status, string outXml, int numberOfScanners)
+        public CommandResult(string commandName, int status, string outXml, int numberOfScanners)
         {
+            CommandName = commandName;
             Status = status;
             OutXml = outXml;
             NumberOfScanners = numberOfScanners;
@@ -75,6 +89,52 @@ namespace QRScanner.model
         }
 
         #region Methods
+
+        /// <summary>
+        /// Returns a detailed, human-readable string representing all the information in the CommandResult object.
+        /// </summary>
+        public string GetCommandResultDetails()
+        {
+            var details = new StringBuilder();
+
+            details.AppendLine("Command Result Details:");
+            details.AppendLine($"- Command Name: {CommandName}");
+            details.AppendLine($"- Status: {Status}");
+            details.AppendLine($"- Status Message: {StatusMessage}");
+            details.AppendLine($"- Number of Scanners: {NumberOfScanners}");
+            details.AppendLine($"- Output XML: {(string.IsNullOrWhiteSpace(OutXml) ? "No XML output" : OutXml)}");
+
+            if (!string.IsNullOrWhiteSpace(OutXml))
+            {
+                details.AppendLine("- Scanners Information:");
+
+                try
+                {
+                    var scanners = GetAllScanners();
+                    if (scanners != null && scanners.Count > 0)
+                    {
+                        foreach (var scanner in scanners)
+                        {
+                            details.AppendLine(scanner.GetScannerDetails());
+                        }
+                    }
+                    else
+                    {
+                        details.AppendLine("  No scanners found in the output XML.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    details.AppendLine($"Error parsing scanners from XML: {ex.Message}");
+                }
+            }
+
+            return details.ToString();
+        }
+
+        #endregion
+
+        #region XMLReader Methods
 
         public Scanner GetFirstScannerDetected()
         {

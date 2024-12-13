@@ -32,11 +32,36 @@ namespace QRScanner.model
         {
             StringBuilder details = new StringBuilder();
 
-            details.AppendLine("");
+            details.AppendLine("Diagnostics Result Details:");
             details.AppendLine($"- Success: {Success}");
-            details.AppendLine($"- ErrorMessage: {ErrorMessage}");
-            details.AppendLine($"- Detected scanners: {() => { Scanner.GetScannersDetails(DetectedScanners); }}");
-            details.AppendLine($"- Selected scanner: {SelectedScanner.GetScannerDetails()}");
+            details.AppendLine($"- ErrorMessage: {ErrorMessage ?? "None"}");
+
+            // Detected scanners details
+            if (DetectedScanners != null && DetectedScanners.Any())
+            {
+                details.AppendLine("- Detected scanners:");
+                for (int i = 0; i < DetectedScanners.Count; i++)
+                {
+                    details.AppendLine(new string('-', 50)); // Separator between scanners
+                    details.AppendLine($"Scanner {i + 1}:");
+                    details.AppendLine(DetectedScanners[i].GetScannerDetails());
+                }
+            }
+            else
+            {
+                details.AppendLine("- Detected scanners: None");
+            }
+
+            // Selected scanner details
+            if (SelectedScanner != null)
+            {
+                details.AppendLine($"- Selected scanner:");
+                details.AppendLine(SelectedScanner.GetScannerDetails());
+            }
+            else
+            {
+                details.AppendLine("- Selected scanner: Null.");
+            }
 
             return details.ToString();
         }

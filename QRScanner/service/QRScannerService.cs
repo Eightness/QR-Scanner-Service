@@ -2,6 +2,7 @@
 using QRScanner.controller;
 using QRScanner.events;
 using QRScanner.Exceptions;
+using QRScanner.model;
 using QRScanner.utility;
 
 namespace QRScanner.service
@@ -80,12 +81,22 @@ namespace QRScanner.service
 
                 _qrScannerLogger.LogInfo("QR scanner service stopped.");
 
-                // Disable scan and beeps to indicate that the service stopped
-                ScannerController.EnableScan(false);
-                ScannerController.BeepScanner("6");
+                // Disable scan
+                CommandResult disableScanResult = ScannerController.EnableScan(false);
+                _qrScannerLogger.LogInfo(disableScanResult.StatusMessage);
+                _qrScannerLogger.LogInfo(disableScanResult.OutXml);
+
+                // Beep to indicate that the service stopped
+                CommandResult beepScannerResult = ScannerController.BeepScanner("6");
+                _qrScannerLogger.LogInfo(disableScanResult.StatusMessage);
+                _qrScannerLogger.LogInfo(disableScanResult.OutXml);
 
                 // Close CoreScanner API
-                ScannerController.CloseCoreScannerAPI();
+                CommandResult closeCoreScannerAPIResult = ScannerController.CloseCoreScannerAPI();
+                _qrScannerLogger.LogInfo(closeCoreScannerAPIResult.StatusMessage);
+                _qrScannerLogger.LogInfo(disableScanResult.OutXml);
+
+
                 _qrScannerLogger.LogInfo("CoreScanner API closed.");
 
                 return true;
@@ -140,8 +151,10 @@ namespace QRScanner.service
 
         #region Diagnostics
 
-        public async Task<bool> RunDiagnostics(int maxAttempts, int delayMilliseconds)
+        public async Task<DiagnosticsResult> RunDiagnostics(int maxAttempts, int delayMilliseconds)
         {
+            DiagnosticsResult result;
+
             try
             {
                 _qrScannerLogger.LogInfo("Running diagnostics for QR scanner service...");
@@ -155,8 +168,9 @@ namespace QRScanner.service
                 if (!scannersDetected)
                 {
                     // Diagnostics failed
-                    _qrScannerLogger.LogError($"Diagnostics unsuccessful: Unable to detect scanners after {maxAttempts} attempts.");
-                    return false;
+                    result = new DiagnosticsResult(false, $"Unable to detect scanners after {maxAttempts} attempts.", ScannerController.DetectedScanners, ScannerController.SelectedScanner);
+                    _qrScannerLogger.LogError($"Diagnostics unsuccessful: {result.ErrorMessage}");
+                    return result;
                 }
 
                 // Step 3: Register for events
@@ -170,12 +184,13 @@ namespace QRScanner.service
                 ScannerController.EnableScan(false);
 
                 // Diagnostics completed
+                result = new DiagnosticsResult(true, "Diagnostics completed successfully.", ScannerController.DetectedScanners, ScannerController.SelectedScanner);
                 ScannerController.BeepScanner("20");    // Fast warble beep
                 _qrScannerLogger.LogInfo("Diagnostics completed successfully.");
 
                 requiredDiagnosis = false;  // As diagnosis is completed, service can start
 
-                return true;
+                return result;
             }
             catch (Exception e)
             {
@@ -183,7 +198,7 @@ namespace QRScanner.service
                 _qrScannerLogger.LogError($"Diagnostics unsuccessful: {e.Message}");
                 requiredDiagnosis = true;
 
-                return false;
+                return result;
             }
         }
 
@@ -195,7 +210,7 @@ namespace QRScanner.service
                 {
                     _qrScannerLogger.LogInfo($"Attempt {attempt}/{maxAttempts}: Trying to detect scanners...");
 
-                    ScannerController.DetectScanners();
+                    CommandResult result = ScannerController.DetectScanners();
                     _qrScannerLogger.LogInfo($"Detected {ScannerController.DetectedScanners.Count} scanner(s).");
                     _qrScannerLogger.LogInfo($"Selected scanner with ID {ScannerController.SelectedScanner.ScannerID}: {ScannerController.SelectedScanner.GetScannerDetails()}");
 

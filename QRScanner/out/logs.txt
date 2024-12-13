@@ -1027,3 +1027,23 @@
 - Firmware Version: PAAELS00-004-R00
 [6] [05/12/2024 16:49:27] [INFO]: Successfully registered for scanner events.
 [7] [05/12/2024 16:49:27] [INFO]: Diagnostics completed successfully.
+[1] [11/12/2024 11:38:18] [INFO]: Running diagnostics for QR scanner service...
+[2] [11/12/2024 11:38:18] [INFO]: CoreScanner API opened successfully.
+[3] [11/12/2024 11:38:18] [INFO]: Attempt 1/5: Trying to detect scanners...
+[4] [11/12/2024 11:38:18] [INFO]: Detected 1 scanner(s).
+[5] [11/12/2024 11:38:18] [INFO]: Selected scanner with ID 1: 
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+[6] [11/12/2024 11:38:18] [INFO]: Successfully registered for scanner events.
+[7] [11/12/2024 11:38:18] [INFO]: Diagnostics completed successfully.
+[8] [11/12/2024 11:39:05] [INFO]: Scanning...
+[9] [11/12/2024 11:42:23] [INFO]: Scanning stopped.
+[10] [11/12/2024 11:42:23] [INFO]: QR scanner service stopped.
+[11] [11/12/2024 11:42:23] [INFO]: CoreScanner API closed.
