@@ -32,16 +32,16 @@ namespace QRScanner.controller
         public CommandResult OpenCoreScannerAPI()
         {
             if (IsOpen)
-                return new CommandResult(0);    // If the connection is already open, skip the remaining code and return success.
+                return new CommandResult("Open CoreScanner.", 0);    // If the connection is already open, skip the remaining code and return success.
 
             short[] scannerTypes = { 1 }; // 1 for all scanner types
             short numberOfScannerTypes = 1;
             _coreScanner.Open(0, scannerTypes, numberOfScannerTypes, out int status);
 
-            CommandResult result = new CommandResult(status);
+            CommandResult result = new CommandResult("Open CoreScanner.", status);
 
             if (result.Status != 0)
-                throw new FailedToOpenCoreScannerAPIException(result.StatusMessage);
+                throw new FailedToOpenCoreScannerAPIException(result.StatusMessage, result);
 
             IsOpen = true;
             SubscribeToBarcodeEvent();
@@ -56,10 +56,10 @@ namespace QRScanner.controller
 
             _coreScanner.Close(0, out int status);
 
-            CommandResult result = new CommandResult(status);
+            CommandResult result = new CommandResult("Close CoreScanner.", status);
 
             if (result.Status != 0)
-                throw new FailedToCloseCoreScannerAPIException(result.StatusMessage);
+                throw new FailedToCloseCoreScannerAPIException(result.StatusMessage, result);
 
             IsOpen = false;
             UnsubscribeToBarcodeEvent();
@@ -67,28 +67,29 @@ namespace QRScanner.controller
             return result;
         }
 
-        public CommandResult DetectScanners()
+        public CommandResult DetectScannersAndSelection()
         {
             short numberOfScanners;
             int[] connectedScannerIDList = new int[255];
             _coreScanner.GetScanners(out numberOfScanners, connectedScannerIDList, out string outXml, out int status);
 
-            CommandResult result = new CommandResult(status, outXml, numberOfScanners);
+            CommandResult result = new CommandResult("Get Scanners.", status, outXml, numberOfScanners);
 
             if (result.Status != 0)
-                throw new ScannersDetectionFailedException(result.StatusMessage);
+                throw new ScannersDetectionFailedException(result.StatusMessage, result);
             
             // Get all scanners detected
             DetectedScanners = result.GetAllScanners();
 
             if (DetectedScanners.Count <= 0)
-                throw new NoScannersFoundException();
+                throw new NoScannersFoundException(result);
 
             // Select first scanner detected by default
-            SelectedScanner = result.GetFirstScannerDetected();
+            if (SelectedScanner == null)
+                SelectedScanner = result.GetFirstScannerDetected();
 
             if (SelectedScanner == null)
-                throw new ScannerNotSelectedException();
+                throw new ScannerNotSelectedException(result);
 
             return result;
         }
@@ -154,6 +155,27 @@ namespace QRScanner.controller
             return ExecuteCommand(opcode, inXml);
         }
 
+        public List<CommandResult> DisableScanForAllScanners()
+        {
+            if (DetectedScanners == null || DetectedScanners.Count == 0)
+                throw new NoScannersFoundException();
+
+            var results = new List<CommandResult>();
+            int opcode = OpcodesHandler.SCAN_DISABLE;
+
+            foreach (var scanner in DetectedScanners)
+            {
+                ValidateScanner(scanner);
+
+                string inXml = $"<inArgs><scannerID>{scanner.ScannerID}</scannerID></inArgs>";
+                CommandResult result = ExecuteCommand(opcode, inXml);
+
+                results.Add(result);
+            }
+
+            return results;
+        }
+
         public CommandResult TurnLED(bool on)
         {
             ValidateScanner(SelectedScanner);
@@ -188,10 +210,10 @@ namespace QRScanner.controller
         private CommandResult ExecuteCommand(int opcode, string inXml)
         {
             _coreScanner.ExecCommand(opcode, ref inXml, out string outXml, out int status);
-            CommandResult result = new CommandResult(status, outXml);
+            CommandResult result = new CommandResult(OpcodesHandler.HandleOpcode(opcode), status, outXml);
 
             if (result.Status != 0)
-                throw new CommandExecutionFailedException(opcode, inXml, result.StatusMessage);
+                throw new CommandExecutionFailedException(opcode, inXml, result.StatusMessage, result);
 
             return result;
         }

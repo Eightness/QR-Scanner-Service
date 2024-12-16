@@ -1,4 +1,6 @@
 ﻿using System;
+using QRScanner.model;
+using QRScanner.utility;
 
 namespace QRScanner.Exceptions
 {
@@ -7,184 +9,170 @@ namespace QRScanner.Exceptions
     /// </summary>
     public abstract class QRScannerException : Exception
     {
-        protected QRScannerException(string message) : base(message) { }
+        /// <summary>
+        /// The command result associated with the exception.
+        /// </summary>
+        public CommandResult CommandResult { get; }
 
-        protected QRScannerException(string message, Exception innerException) : base(message, innerException) { }
+        protected QRScannerException(string message)
+            : base(message) { }
+
+        protected QRScannerException(string message, CommandResult commandResult)
+            : base(message)
+        {
+            CommandResult = commandResult;
+        }
+
+        protected QRScannerException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, innerException)
+        {
+            CommandResult = commandResult;
+        }
     }
 
     #region Scanner related Exceptions
 
-    /// <summary>
-    /// Exception thrown when no scanners are found in the provided XML.
-    /// </summary>
     public class NoScannersFoundException : QRScannerException
     {
         public NoScannersFoundException()
             : base("No scanners found.") { }
 
-        public NoScannersFoundException(string message)
-            : base(message) { }
+        public NoScannersFoundException(CommandResult commandResult)
+            : base("No scanners found.", commandResult) { }
 
-        public NoScannersFoundException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public NoScannersFoundException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
+
+        public NoScannersFoundException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when a specific scanner is not found by its ID.
-    /// </summary>
     public class ScannerNotFoundException : QRScannerException
     {
         public ScannerNotFoundException(int scannerId)
             : base($"Scanner with ID {scannerId} was not found within detected scanners.") { }
 
-        public ScannerNotFoundException(string message)
-            : base(message) { }
+        public ScannerNotFoundException(int scannerId, CommandResult commandResult)
+            : base($"Scanner with ID {scannerId} was not found within detected scanners.", commandResult) { }
 
-        public ScannerNotFoundException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public ScannerNotFoundException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
+
+        public ScannerNotFoundException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when attempting an operation without a selected scanner.
-    /// </summary>
     public class SelectedScannerIsNullException : QRScannerException
     {
         public SelectedScannerIsNullException()
             : base("No scanner is currently selected. Please select a scanner before performing this operation.") { }
 
-        public SelectedScannerIsNullException(string message)
-            : base(message) { }
+        public SelectedScannerIsNullException(CommandResult commandResult)
+            : base("No scanner is currently selected. Please select a scanner before performing this operation.", commandResult) { }
 
-        public SelectedScannerIsNullException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public SelectedScannerIsNullException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
+
+        public SelectedScannerIsNullException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when attempting an operation without a selected scanner.
-    /// </summary>
     public class ScannerAlreadySelectedException : QRScannerException
     {
         public ScannerAlreadySelectedException(int scannerId)
-            : base($"Scanner with ID {scannerId} already selected.") { }
+            : base($"Scanner with ID {scannerId} is already selected.") { }
 
-        public ScannerAlreadySelectedException(string message)
-            : base(message) { }
+        public ScannerAlreadySelectedException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
 
-        public ScannerAlreadySelectedException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public ScannerAlreadySelectedException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when attempting an operation without a selected scanner.
-    /// </summary>
     public class ScannerNotSelectedException : QRScannerException
     {
-        public ScannerNotSelectedException()
-            : base("Failed to select any scanner. Please ensure a valid scanner is connected and selected.") { }
+        public ScannerNotSelectedException(CommandResult commandResult)
+            : base("Failed to select any scanner. Please ensure a valid scanner is connected and selected.", commandResult) { }
 
-        public ScannerNotSelectedException(string message)
-            : base(message) { }
+        public ScannerNotSelectedException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
 
-        public ScannerNotSelectedException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public ScannerNotSelectedException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
     #endregion
 
     #region SDK related Exceptions
 
-    /// <summary>
-    /// Exception thrown when the SDK fails to initialize.
-    /// </summary>
     public class FailedToOpenCoreScannerAPIException : QRScannerException
     {
-        public FailedToOpenCoreScannerAPIException(string details)
-            : base($"Failed to initialize the SDK. Details -> {details}") { }
+        public FailedToOpenCoreScannerAPIException(string details, CommandResult commandResult)
+            : base($"Failed to initialize the SDK. Details -> {details}", commandResult) { }
 
-        public FailedToOpenCoreScannerAPIException(string message, string details)
-            : base($"{message}. Details -> {details}") { }
+        public FailedToOpenCoreScannerAPIException(string message, string details, CommandResult commandResult)
+            : base($"{message}. Details -> {details}", commandResult) { }
 
-        public FailedToOpenCoreScannerAPIException(string details, Exception innerException)
-            : base($"Failed to initialize the SDK. Details -> {details}", innerException) { }
+        public FailedToOpenCoreScannerAPIException(string details, CommandResult commandResult, Exception innerException)
+            : base($"Failed to initialize the SDK. Details -> {details}", commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when the SDK fails to stop.
-    /// </summary>
     public class FailedToCloseCoreScannerAPIException : QRScannerException
     {
         public FailedToCloseCoreScannerAPIException(string details)
             : base($"Failed to stop the SDK. Details -> {details}") { }
 
-        public FailedToCloseCoreScannerAPIException(string message, string details)
-            : base($"{message}. Details -> {details}") { }
+        public FailedToCloseCoreScannerAPIException(string details, CommandResult commandResult)
+            : base($"Failed to stop the SDK. Details -> {details}", commandResult) { }
 
-        public FailedToCloseCoreScannerAPIException(string details, Exception innerException)
-            : base($"Failed to stop the SDK. Details -> {details}", innerException) { }
+        public FailedToCloseCoreScannerAPIException(string message, string details, CommandResult commandResult)
+            : base($"{message}. Details -> {details}", commandResult) { }
+
+        public FailedToCloseCoreScannerAPIException(string details, CommandResult commandResult, Exception innerException)
+            : base($"Failed to stop the SDK. Details -> {details}", commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when the SDK fails to stop.
-    /// </summary>
     public class ScannersDetectionFailedException : QRScannerException
     {
-        public ScannersDetectionFailedException(string details)
-            : base($"Scanners detection failed. Details -> {details}") { }
+        public ScannersDetectionFailedException(string details, CommandResult commandResult)
+            : base($"Scanners detection failed. Details -> {details}", commandResult) { }
 
-        public ScannersDetectionFailedException(string message, string details)
-            : base($"{message}. Details -> {details}") { }
+        public ScannersDetectionFailedException(string message, string details, CommandResult commandResult)
+            : base($"{message}. Details -> {details}", commandResult) { }
 
-        public ScannersDetectionFailedException(string details, Exception innerException)
-            : base($"Scanners detection failed. Details -> {details}", innerException) { }
+        public ScannersDetectionFailedException(string details, CommandResult commandResult, Exception innerException)
+            : base($"Scanners detection failed. Details -> {details}", commandResult, innerException) { }
     }
 
-    /// <summary>
-    /// Exception thrown when a Scanner operation fails during command execution.
-    /// </summary>
     public class CommandExecutionFailedException : QRScannerException
     {
-        public CommandExecutionFailedException(int opcode, string inXml, string details)
-            : base($"Command {opcode} with XML '{inXml}' failed. Details -> {details}") { }
+        public CommandExecutionFailedException(int opcode, string inXml, string details, CommandResult commandResult)
+            : base($"Command {opcode} with XML '{inXml}' failed. Details -> {details}", commandResult) { }
 
-        public CommandExecutionFailedException(string message)
-            : base(message) { }
+        public CommandExecutionFailedException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
 
-        public CommandExecutionFailedException(int opcode, string inXml, string details, Exception innerException)
-            : base($"Command {opcode} with XML '{inXml}' failed. Details: {details}", innerException) { }
-    }
-
-    /// <summary>
-    /// Exception thrown when communication issues are detected with the scanner.
-    /// </summary>
-    public class ScannerCommunicationFailedException : QRScannerException
-    {
-        public ScannerCommunicationFailedException()
-            : base("Communication problems were detected with the scanner.") { }
-
-        public ScannerCommunicationFailedException(string message)
-            : base(message) { }
-
-        public ScannerCommunicationFailedException(Exception innerException)
-            : base("Communication problems were detected with the scanner.", innerException) { }
+        public CommandExecutionFailedException(int opcode, string inXml, string details, CommandResult commandResult, Exception innerException)
+            : base($"Command {opcode} with XML '{inXml}' failed. Details: {details}", commandResult, innerException) { }
     }
 
     #endregion
 
     #region Decoding related Exceptions
 
-    /// <summary>
-    /// Exception thrown when no datalabel is found in the provided XML.
-    /// </summary>
     public class DataLabelNotFoundException : QRScannerException
     {
         public DataLabelNotFoundException()
             : base("DataLabel was not found in the provided XML.") { }
 
-        public DataLabelNotFoundException(string message)
-            : base(message) { }
+        public DataLabelNotFoundException(CommandResult commandResult)
+            : base("DataLabel was not found in the provided XML.", commandResult) { }
 
-        public DataLabelNotFoundException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public DataLabelNotFoundException(string message, CommandResult commandResult)
+            : base(message, commandResult) { }
+
+        public DataLabelNotFoundException(string message, CommandResult commandResult, Exception innerException)
+            : base(message, commandResult, innerException) { }
     }
 
     #endregion

@@ -49,7 +49,7 @@
             scannerId_TextBox = new TextBox();
             clearLogs_Button = new Button();
             beep_Button = new Button();
-            diagnosis_Button = new Button();
+            diagnostics_Button = new Button();
             ((System.ComponentModel.ISupportInitialize)detectedScanners_DataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -247,23 +247,23 @@
             beep_Button.UseVisualStyleBackColor = true;
             beep_Button.Click += beepButton_Click;
             // 
-            // diagnosis_Button
+            // diagnostics_Button
             // 
-            diagnosis_Button.Font = new Font("Segoe UI", 12F);
-            diagnosis_Button.Location = new Point(12, 12);
-            diagnosis_Button.Name = "diagnosis_Button";
-            diagnosis_Button.Size = new Size(125, 50);
-            diagnosis_Button.TabIndex = 30;
-            diagnosis_Button.Text = "Diagnosis";
-            diagnosis_Button.UseVisualStyleBackColor = true;
-            diagnosis_Button.Click += diagnosisButton_Click;
+            diagnostics_Button.Font = new Font("Segoe UI", 12F);
+            diagnostics_Button.Location = new Point(12, 12);
+            diagnostics_Button.Name = "diagnostics_Button";
+            diagnostics_Button.Size = new Size(125, 50);
+            diagnostics_Button.TabIndex = 30;
+            diagnostics_Button.Text = "Diagnostics";
+            diagnostics_Button.UseVisualStyleBackColor = true;
+            diagnostics_Button.Click += diagnosticsButton_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 436);
-            Controls.Add(diagnosis_Button);
+            Controls.Add(diagnostics_Button);
             Controls.Add(beep_Button);
             Controls.Add(clearLogs_Button);
             Controls.Add(scannerId_Label);
@@ -309,6 +309,6 @@
         private TextBox scannerId_TextBox;
         private Button clearLogs_Button;
         private Button beep_Button;
-        private Button diagnosis_Button;
+        private Button diagnostics_Button;
     }
 }

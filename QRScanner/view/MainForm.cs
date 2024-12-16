@@ -33,7 +33,7 @@ namespace QRScanner.view
 
         #region Buttons
 
-        private async void diagnosisButton_Click(object sender, EventArgs e)
+        private async void diagnosticsButton_Click(object sender, EventArgs e)
         {
             DiagnosticsResult result = await _qrScannerService.RunDiagnostics(5, 3000);
 
@@ -43,6 +43,12 @@ namespace QRScanner.view
                 startService_Button.Enabled = false;
 
             UpdateLogs();
+            FillScannersTable();
+            EnableOperations(true);
+
+            detectedScanners_Label.Text = $"Detected Scanners: {_qrScannerService.ScannerController.DetectedScanners.Count}";
+            selectedScanner_Label.Text = $"Selected Scanner: {_qrScannerService.ScannerController.SelectedScanner.ScannerID}";
+            diagnostics_Button.Enabled = false;
         }
 
         private void startServiceButton_Click(object sender, EventArgs e)
@@ -55,12 +61,7 @@ namespace QRScanner.view
             {
                 SubscribeToQRCodeDecoded();
                 startService_Button.Enabled = false;
-                EnableOperations(true);
-
-                detectedScanners_Label.Text = $"Detected Scanners: {_qrScannerService.ScannerController.DetectedScanners.Count}";
-                selectedScanner_Label.Text = $"Selected Scanner: {_qrScannerService.ScannerController.SelectedScanner.ScannerID}";
-
-                FillScannersTable();
+                stopService_Button.Enabled = true;
             }
         }
 
@@ -81,6 +82,9 @@ namespace QRScanner.view
                     SetDefaultOperations();
                 });
             }
+
+            diagnostics_Button.Enabled = true;
+            stopService_Button.Enabled = false;
         }
 
         private void selectScannerButton_Click(object sender, EventArgs e)
@@ -94,6 +98,8 @@ namespace QRScanner.view
             try
             {
                 _qrScannerService.ScannerController.SelectScannerById(scannerId);
+                _qrScannerService.ScannerController.DisableScanForAllScanners();
+                _qrScannerService.ScannerController.EnableScan(true);
 
                 MessageBox.Show($"Scanner with ID {scannerId} selected succesfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _qrScannerLogger.LogInfo($"Scanner with ID {scannerId} selected succcesfully.");
@@ -205,8 +211,7 @@ namespace QRScanner.view
 
         private void EnableOperations(bool enable)
         {
-            if (stopService_Button.InvokeRequired ||
-                scannerId_TextBox.InvokeRequired ||
+            if (scannerId_TextBox.InvokeRequired ||
                 selectScanner_Button.InvokeRequired ||
                 beep_Button.InvokeRequired)
             {
@@ -214,7 +219,6 @@ namespace QRScanner.view
             }
             else
             {
-                stopService_Button.Enabled = enable;
                 scannerId_TextBox.Enabled = enable;
                 selectScanner_Button.Enabled = enable;
                 beep_Button.Enabled = enable;

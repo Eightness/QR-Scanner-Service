@@ -797,24 +797,6 @@ namespace QRScanner.utility
 
     }
 
-    /// <summary>
-    /// A static class providing constant integer values for all supported operation codes (opcodes).
-    /// These opcodes represent specific commands that can be executed on Zebra scanners.
-    /// </summary>
-    /// <remarks>
-    /// The class is categorized based on the functionality of the commands, such as:
-    /// <list type="bullet">
-    /// <item>Scanner SDK Commands</item>
-    /// <item>Scanner Access Control Commands</item>
-    /// <item>Scanner Common Commands</item>
-    /// <item>Scanner Operation Mode Commands</item>
-    /// <item>Scanner Management Commands</item>
-    /// <item>Real-Time Alerts (RTA) Configuration Commands</item>
-    /// <item>Serial Scanner Commands</item>
-    /// <item>Keyboard Emulator Commands</item>
-    /// <item>Scale Commands</item>
-    /// </list>
-    /// </remarks>
     public static class OpcodesHandler
     {
         // Scanner SDK Commands
@@ -886,6 +868,73 @@ namespace QRScanner.utility
         public const int SCALE_READ_WEIGHT = 7000;
         public const int SCALE_ZERO_SCALE = 7002;
         public const int SCALE_SYSTEM_RESET = 7015;
+
+        // Private dictionary mapping opcodes to human-readable names
+        private static readonly Dictionary<int, string> OpcodeDescriptions = new()
+        {
+            { GET_VERSION, "Get Version." },
+            { REGISTER_FOR_EVENTS, "Register for Events." },
+            { UNREGISTER_FOR_EVENTS, "Unregister for Events." },
+            { CLAIM_DEVICE, "Claim Device." },
+            { RELEASE_DEVICE, "Release Device." },
+            { ABORT_MACROPDF, "Abort MacroPDF." },
+            { ABORT_UPDATE_FIRMWARE, "Abort Update Firmware." },
+            { AIM_OFF, "Aim Off." },
+            { AIM_ON, "Aim On." },
+            { FLUSH_MACROPDF, "Flush MacroPDF." },
+            { DEVICE_PULL_TRIGGER, "Pull Trigger." },
+            { DEVICE_RELEASE_TRIGGER, "Release Trigger." },
+            { SCAN_DISABLE, "Disable Scanning." },
+            { SCAN_ENABLE, "Enable Scanning." },
+            { SET_PARAMETER_DEFAULTS, "Set Parameter Defaults." },
+            { DEVICE_SET_PARAMETERS, "Set Parameters." },
+            { SET_PARAMETER_PERSISTANCE, "Set Parameter Persistence." },
+            { REBOOT_SCANNER, "Reboot Scanner." },
+            { DEVICE_CAPTURE_IMAGE, "Capture Image." },
+            { DEVICE_CAPTURE_BARCODE, "Capture Barcode." },
+            { DEVICE_CAPTURE_VIDEO, "Capture Video." },
+            { ATTR_GETALL, "Get All Attributes." },
+            { ATTR_GET, "Get Attribute." },
+            { ATTR_GETNEXT, "Get Next Attribute." },
+            { ATTR_SET, "Set Attribute." },
+            { ATTR_STORE, "Store Attribute." },
+            { GET_DEVICE_TOPOLOGY, "Get Device Topology." },
+            { START_NEW_FIRMWARE, "Start New Firmware." },
+            { UPDATE_FIRMWARE, "Update Firmware." },
+            { UPDATE_FIRMWARE_FROM_PLUGIN, "Update Firmware from Plugin." },
+            { UPDATE_DECODE_TONE, "Update Decode Tone." },
+            { ERASE_DECODE_TONE, "Erase Decode Tone." },
+            { GET_SUPPORTED_RTA_EVENTS, "Get Supported RTA Events." },
+            { REGISTER_RTA_EVENTS, "Register RTA Events." },
+            { UNREGISTER_RTA_EVENTS, "Unregister RTA Events." },
+            { GET_RTA_ALERT_STATUS, "Get RTA Alert Status." },
+            { SET_RTA_ALERT_STATUS, "Set RTA Alert Status." },
+            { RTA_SUSPEND, "RTA Suspend." },
+            { RTA_STATE, "RTA State." },
+            { SET_ACTION, "Set Action." },
+            { DEVICE_SET_SERIAL_PORT_SETTINGS, "Set Serial Port Settings." },
+            { DEVICE_SWITCH_HOST_MODE, "Switch Host Mode." },
+            { KEYBOARD_EMULATOR_ENABLE, "Enable Keyboard Emulator." },
+            { KEYBOARD_EMULATOR_SET_LOCALE, "Set Keyboard Emulator Locale." },
+            { KEYBOARD_EMULATOR_GET_CONFIG, "Get Keyboard Emulator Config." },
+            { SCALE_READ_WEIGHT, "Read Weight." },
+            { SCALE_ZERO_SCALE, "Zero Scale." },
+            { SCALE_SYSTEM_RESET, "System Reset." }
+        };
+
+        /// <summary>
+        /// Returns the human-readable description for the given opcode.
+        /// </summary>
+        /// <param name="opcode">The opcode to describe.</param>
+        /// <returns>A string describing the opcode, or "Unknown Opcode" if not found.</returns>
+        public static string HandleOpcode(int opcode)
+        {
+            if (OpcodeDescriptions.TryGetValue(opcode, out var description))
+            {
+                return description;
+            }
+            return "Unknown Opcode.";
+        }
     }
 
     /// <summary>

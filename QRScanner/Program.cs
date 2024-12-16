@@ -6,7 +6,7 @@ using QRScanner.view;
 using QRScanner.controller;
 
 /// <summary>
-/// Entry point for the Zebra Scanner application.
+/// Entry point for the QR Scanner Service application.
 /// Sets up and runs the main form within a Windows Forms environment.
 /// </summary>
 class Program
