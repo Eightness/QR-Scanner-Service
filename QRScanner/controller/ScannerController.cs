@@ -36,7 +36,7 @@ namespace QRScanner.controller
         private readonly CCoreScanner _coreScanner; // CoreScanner SDK instance
         public List<Scanner> DetectedScanners;
         public Scanner SelectedScanner;
-        private bool IsOpen = false;
+        public bool IsOpen = false;
         public event EventHandler<BarcodeScannedEventArgs> BarcodeScanned;
 
         #endregion

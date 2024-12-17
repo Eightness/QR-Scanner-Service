@@ -60,9 +60,9 @@ namespace QRScanner.view
 
         #region Buttons
 
-        private async void diagnosticsButton_Click(object sender, EventArgs e)
+        private void diagnosticsButton_Click(object sender, EventArgs e)
         {
-            DiagnosticsResult result = await _qrScannerService.RunDiagnostics(5, 3000);
+            DiagnosticsResult result = _qrScannerService.RunDiagnostics(5, 3000);
 
             if (result.Success)
                 startService_Button.Enabled = true;
@@ -110,7 +110,8 @@ namespace QRScanner.view
                 });
             }
 
-            diagnostics_Button.Enabled = true;
+            startService_Button.Enabled = true;
+            diagnostics_Button.Enabled = false;
             stopService_Button.Enabled = false;
         }
 
@@ -221,8 +222,7 @@ namespace QRScanner.view
 
         private void SetDefaultOperations()
         {
-            if (startService_Button.InvokeRequired ||
-                detectedScanners_Label.InvokeRequired ||
+            if (detectedScanners_Label.InvokeRequired ||
                 selectedScanner_Label.InvokeRequired ||
                 scannerId_TextBox.InvokeRequired)
             {

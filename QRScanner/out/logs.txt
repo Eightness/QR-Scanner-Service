@@ -1,0 +1,843 @@
+[1] [17/12/2024 16:31:58] [INFO]: Running diagnostics for QR scanner service...
+[2] [17/12/2024 16:31:58] [INFO]: Opening CoreScanner API...
+[3] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[4] [17/12/2024 16:31:58] [INFO]: Detection and selection process...
+[5] [17/12/2024 16:31:58] [INFO]: Attempt 1/5: Trying to detect scanners...
+[6] [17/12/2024 16:31:58] [INFO]: Detected 2 scanner(s).
+[7] [17/12/2024 16:31:58] [INFO]: Selected scanner with ID 2: 
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+[8] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+[9] [17/12/2024 16:31:58] [INFO]: Registering events...
+[10] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[11] [17/12/2024 16:31:58] [INFO]: Claiming selected scanner...
+[12] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[13] [17/12/2024 16:31:58] [INFO]: Disabling scan and LED...
+[14] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[15] [17/12/2024 16:31:58] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[16] [17/12/2024 16:31:58] [INFO]: Diagnostics result details:
+- Success: True
+- Message: Diagnostics successfully completed.
+- Detected scanners:
+--------------------------------------------------
+Scanner 1:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+Scanner 2:
+
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+- Selected scanner:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+
+[17] [17/12/2024 16:31:58] [INFO]: Diagnostics successfully completed.
+[18] [17/12/2024 16:32:08] [INFO]: Enabling scan and LED...
+[19] [17/12/2024 16:32:08] [INFO]: Command result details:
+- Command: Enable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[20] [17/12/2024 16:32:08] [INFO]: Scanning...
+[21] [17/12/2024 16:32:09] [INFO]: Scanning stopped.
+[22] [17/12/2024 16:32:09] [INFO]: Disabling scan and LED...
+[23] [17/12/2024 16:32:09] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[24] [17/12/2024 16:32:09] [INFO]: Closing CoreScanner API...
+[25] [17/12/2024 16:32:09] [INFO]: Command result details:
+- Command: Close CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[26] [17/12/2024 16:32:09] [INFO]: QR scanner service stopped.
+[1] [17/12/2024 16:38:27] [INFO]: Running diagnostics for QR scanner service...
+[2] [17/12/2024 16:38:27] [INFO]: Opening CoreScanner API...
+[3] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[4] [17/12/2024 16:38:27] [INFO]: Detection and selection process...
+[5] [17/12/2024 16:38:27] [INFO]: Attempt 1/5: Trying to detect scanners...
+[6] [17/12/2024 16:38:27] [INFO]: Detected 2 scanner(s).
+[7] [17/12/2024 16:38:27] [INFO]: Selected scanner with ID 2: 
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+[8] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+[9] [17/12/2024 16:38:27] [INFO]: Registering events...
+[10] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[11] [17/12/2024 16:38:27] [INFO]: Claiming selected scanner...
+[12] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[13] [17/12/2024 16:38:27] [INFO]: Disabling scan and LED...
+[14] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[15] [17/12/2024 16:38:27] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[16] [17/12/2024 16:38:27] [INFO]: Diagnostics result details:
+- Success: True
+- Message: Diagnostics successfully completed.
+- Detected scanners:
+--------------------------------------------------
+Scanner 1:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+Scanner 2:
+
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+- Selected scanner:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+Command results:
+Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[17] [17/12/2024 16:38:27] [INFO]: Diagnostics successfully completed.
+[1] [17/12/2024 16:39:30] [INFO]: Running diagnostics for QR scanner service...
+[2] [17/12/2024 16:39:30] [INFO]: Opening CoreScanner API...
+[3] [17/12/2024 16:39:30] [INFO]: Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[4] [17/12/2024 16:39:30] [INFO]: Detection and selection process...
+[5] [17/12/2024 16:39:30] [INFO]: Attempt 1/5: Trying to detect scanners...
+[6] [17/12/2024 16:39:31] [INFO]: Detected 2 scanner(s).
+[7] [17/12/2024 16:39:31] [INFO]: Selected scanner with ID 2: 
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+[8] [17/12/2024 16:39:31] [INFO]: Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+[9] [17/12/2024 16:39:31] [INFO]: Registering events...
+[10] [17/12/2024 16:39:31] [INFO]: Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[11] [17/12/2024 16:39:31] [INFO]: Claiming selected scanner...
+[12] [17/12/2024 16:39:31] [INFO]: Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[13] [17/12/2024 16:39:31] [INFO]: Disabling scan and LED...
+[14] [17/12/2024 16:39:31] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[15] [17/12/2024 16:39:31] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[16] [17/12/2024 16:39:31] [INFO]: Diagnostics result details:
+- Success: True
+- Message: Diagnostics successfully completed.
+- Detected scanners:
+--------------------------------------------------
+Scanner 1:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+Scanner 2:
+
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+- Selected scanner:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+Command results:
+Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[17] [17/12/2024 16:39:31] [INFO]: Diagnostics successfully completed.
+[18] [17/12/2024 16:40:05] [INFO]: Enabling scan and LED...
+[19] [17/12/2024 16:40:05] [INFO]: Command result details:
+- Command: Enable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[20] [17/12/2024 16:40:05] [INFO]: Scanning...
+[21] [17/12/2024 16:40:06] [INFO]: Scanning stopped.
+[22] [17/12/2024 16:40:06] [INFO]: Disabling scan and LED...
+[23] [17/12/2024 16:40:06] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[24] [17/12/2024 16:40:06] [INFO]: Closing CoreScanner API...
+[25] [17/12/2024 16:40:06] [INFO]: Command result details:
+- Command: Close CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[26] [17/12/2024 16:40:06] [INFO]: QR scanner service stopped.
+[1] [17/12/2024 16:40:42] [INFO]: Running diagnostics for QR scanner service...
+[2] [17/12/2024 16:40:42] [INFO]: Opening CoreScanner API...
+[3] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[4] [17/12/2024 16:40:42] [INFO]: Detection and selection process...
+[5] [17/12/2024 16:40:42] [INFO]: Attempt 1/5: Trying to detect scanners...
+[6] [17/12/2024 16:40:42] [INFO]: Detected 2 scanner(s).
+[7] [17/12/2024 16:40:42] [INFO]: Selected scanner with ID 2: 
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+[8] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+[9] [17/12/2024 16:40:42] [INFO]: Registering events...
+[10] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[11] [17/12/2024 16:40:42] [INFO]: Claiming selected scanner...
+[12] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[13] [17/12/2024 16:40:42] [INFO]: Disabling scan and LED...
+[14] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[15] [17/12/2024 16:40:42] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[16] [17/12/2024 16:40:42] [INFO]: Diagnostics result details:
+- Success: True
+- Message: Diagnostics successfully completed.
+- Detected scanners:
+--------------------------------------------------
+Scanner 1:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+Scanner 2:
+
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+- Selected scanner:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+Command results:
+Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[17] [17/12/2024 16:40:42] [INFO]: Diagnostics successfully completed.
+[1] [17/12/2024 16:41:44] [INFO]: Running diagnostics for QR scanner service...
+[2] [17/12/2024 16:41:44] [INFO]: Opening CoreScanner API...
+[3] [17/12/2024 16:41:44] [INFO]: Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[4] [17/12/2024 16:41:45] [INFO]: Detection and selection process...
+[5] [17/12/2024 16:41:45] [INFO]: Attempt 1/5: Trying to detect scanners...
+[6] [17/12/2024 16:41:45] [INFO]: Detected 2 scanner(s).
+[7] [17/12/2024 16:41:45] [INFO]: Selected scanner with ID 2: 
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+[8] [17/12/2024 16:41:45] [INFO]: Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+[9] [17/12/2024 16:41:45] [INFO]: Registering events...
+[10] [17/12/2024 16:41:45] [INFO]: Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[11] [17/12/2024 16:41:45] [INFO]: Claiming selected scanner...
+[12] [17/12/2024 16:41:45] [INFO]: Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[13] [17/12/2024 16:41:45] [INFO]: Disabling scan and LED...
+[14] [17/12/2024 16:41:45] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[15] [17/12/2024 16:41:45] [INFO]: Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+[16] [17/12/2024 16:41:45] [INFO]: Diagnostics result details:
+- Success: True
+- Message: Diagnostics successfully completed.
+- Detected scanners:
+--------------------------------------------------
+Scanner 1:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+Scanner 2:
+
+- Type: SNAPI
+- ID: 1
+- Serial Number: 23163520100331
+- GUID: 23163520100331
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU0C0R
+- Date of Manufacture (DOM): 12JUN23
+- Firmware Version: PAAELS00-004-R00
+
+--------------------------------------------------
+- Selected scanner:
+
+- Type: SNAPI
+- ID: 2
+- Serial Number: 24205525100397
+- GUID: 24205525100397
+- Vendor ID (VID): 1504
+- Product ID (PID): 6400
+- Model Number: MS4727-LU000R
+- Date of Manufacture (DOM): 23Jul24
+- Firmware Version: PAAELS00-004-R00
+
+Executed commands:
+Command result details:
+- Command: Open CoreScanner.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+Command result details:
+- Command: Get Scanners.
+- Status 0: Generic success.
+- Number of scanners detected: 2
+- Output XML: <?xml version="1.0" encoding="UTF-8"?>
+<scanners>
+  <scanner type="SNAPI">
+    <scannerID>2</scannerID>
+    <serialnumber>24205525100397  </serialnumber>
+    <GUID>24205525100397  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU000R     </modelnumber>
+    <DoM>23Jul24</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+  <scanner type="SNAPI">
+    <scannerID>1</scannerID>
+    <serialnumber>23163520100331  </serialnumber>
+    <GUID>23163520100331  </GUID>
+    <VID>1504</VID>
+    <PID>6400</PID>
+    <modelnumber>MS4727-LU0C0R     </modelnumber>
+    <DoM>12JUN23</DoM>
+    <firmware>PAAELS00-004-R00  </firmware>
+    <configname>QRScannerService</configname>
+  </scanner>
+</scanners>
+
+Command result details:
+- Command: Register for Events.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+Command result details:
+- Command: Claim Device.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+Command result details:
+- Command: Disable Scanning.
+- Status 0: Generic success.
+- Output XML: No XML output.
+
+
+[17] [17/12/2024 16:41:45] [INFO]: Diagnostics successfully completed.

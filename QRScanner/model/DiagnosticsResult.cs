@@ -34,7 +34,7 @@ namespace QRScanner.model
         public string Message { get; set; }
         public List<Scanner> DetectedScanners { get; set; }
         public Scanner SelectedScanner { get; set; }
-        public CommandResult CommandResult { get; set; }
+        public List<CommandResult> CommandResults = new List<CommandResult>();
 
         #endregion
 
@@ -55,13 +55,13 @@ namespace QRScanner.model
             SelectedScanner = selectedScanner;
         }
 
-        public DiagnosticsResult(bool success, string message, List<Scanner> detectedScanners, Scanner selectedScanner, CommandResult commandResult)
+        public DiagnosticsResult(bool success, string message, List<Scanner> detectedScanners, Scanner selectedScanner, List<CommandResult> commandResults)
         {
             Success = success;
             Message = message;
             DetectedScanners = detectedScanners;
             SelectedScanner = selectedScanner;
-            CommandResult = commandResult;
+            CommandResults = commandResults;
         }
 
         #endregion
@@ -90,9 +90,8 @@ namespace QRScanner.model
                 }
             }
             else
-            {
                 details.AppendLine("- Detected scanners: None");
-            }
+            
 
             // Selected scanner details
             if (SelectedScanner != null)
@@ -101,17 +100,15 @@ namespace QRScanner.model
                 details.AppendLine(SelectedScanner.GetScannerDetails());
             }
             else
-            {
                 details.AppendLine("- Selected scanner: Null.");
-            }
 
             // Command Result details
-            if (!Success)
+            details.AppendLine("Executed commands:");
+            foreach (var commandResult in CommandResults)
             {
-                details.AppendLine("Last command result:");
-                details.Append(CommandResult.GetCommandResultDetails());
+                details.AppendLine(commandResult.GetCommandResultDetails());
             }
-
+            
             return details.ToString();
         }
 
