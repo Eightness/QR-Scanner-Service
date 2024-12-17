@@ -7,6 +7,32 @@ using QRScanner.utility;
 
 namespace QRScanner.service
 {
+    /// <summary>
+    /// Manages the lifecycle, diagnostics, and scanning operations for Zebra scanners.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="QRScannerService"/> class serves as a high-level service to control scanner devices, 
+    /// leveraging the <see cref="ScannerController"/> to interact with the CoreScanner SDK. 
+    /// It provides methods for starting and stopping the scanning process, running diagnostics, 
+    /// and handling events when a barcode or QR code is scanned.
+    /// </para>
+    /// <para>
+    /// The class follows the Singleton design pattern, ensuring a single shared instance of the service. 
+    /// It incorporates event-driven programming by exposing the <see cref="QRCodeDecoded"/> event, 
+    /// which propagates decoded QR or barcode data to external subscribers.
+    /// </para>
+    /// <para>
+    /// To ensure proper operation, a successful diagnostics check must be performed before starting the scanning process.
+    /// Diagnostics verify that the CoreScanner API can be opened, scanners can be detected and selected, 
+    /// and essential settings (such as disabling scans and LEDs) can be applied. 
+    /// </para>
+    /// <para>
+    /// The scanning process runs asynchronously in a background task, allowing cancellation and graceful shutdown 
+    /// using a cancellation token. The service logs all operations for transparency and debugging purposes.
+    /// </para>
+    /// </remarks>
+
     public sealed class QRScannerService
     {
         #region Attributes and instances
@@ -17,13 +43,17 @@ namespace QRScanner.service
         private readonly QRScannerLogger _qrScannerLogger = QRScannerLogger.Instance;
         public ScannerController ScannerController = new();
         private bool requiredDiagnosis = true;
-        public bool IsDiagnosisRequired => requiredDiagnosis;   // To access requiredDiagnosis from outside
         public event EventHandler<BarcodeScannedEventArgs> QRCodeDecoded;
         public static QRScannerService Instance => _instance.Value;
+        public bool IsDiagnosisRequired => requiredDiagnosis;   // To access requiredDiagnosis from outside
 
         #endregion
 
+        #region Constructors
+
         private QRScannerService() { }
+
+        #endregion
 
         #region Main methods
 
@@ -54,6 +84,42 @@ namespace QRScanner.service
             {
                 _qrScannerLogger.LogError($"Failed to start service: {e.Message}");
                 return false;
+            }
+        }
+
+        private async Task ScanLoopAsync(int delayMilliseconds, CancellationToken token)
+        {
+            CommandResult commandResult;
+
+            SubscribeToBarcodeScannedEvent();   // Subscribes to event
+
+            // Enabling scan (and LED)
+            _qrScannerLogger.LogInfo("Enabling scan and LED...");
+            commandResult = ScannerController.EnableScan(true);
+            _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+
+            // Beeping the scanner
+            _qrScannerLogger.LogInfo("Turn on beep...");
+            //commandResult = ScannerController.BeepScanner("1");
+            _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+
+            _qrScannerLogger.LogInfo("Scanning...");
+
+            while (!token.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(delayMilliseconds, token); // Breathing time to try and scan a QR code, with a token to cancel
+                    Console.WriteLine("...");   // Simulates the scanning process to provide a visual representation or feedback in the console
+                }
+                catch (OperationCanceledException)
+                {
+                    _qrScannerLogger.LogInfo("Scanning stopped.");
+                }
+                catch (Exception e)
+                {
+                    _qrScannerLogger.LogError($"Error in QR scanning loop: {e.Message}");
+                }
             }
         }
 
@@ -119,50 +185,12 @@ namespace QRScanner.service
             }
         }
 
-        private async Task ScanLoopAsync(int delayMilliseconds, CancellationToken token)
-        {
-            CommandResult commandResult;
-
-            SubscribeToBarcodeScannedEvent();   // Subscribes to event
-
-            // Enabling scan (and LED)
-            _qrScannerLogger.LogInfo("Enabling scan and LED...");
-            commandResult = ScannerController.EnableScan(true);
-            _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
-
-            // Beeping the scanner
-            _qrScannerLogger.LogInfo("Turn on beep...");
-            //commandResult = ScannerController.BeepScanner("1");
-            _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
-
-            _qrScannerLogger.LogInfo("Scanning...");
-
-            while (!token.IsCancellationRequested)
-            {
-                try
-                {
-                    await Task.Delay(delayMilliseconds, token); // Breathing time to try and scan a QR code, with a token to cancel
-                    Console.WriteLine("...");   // Simulates the scanning process to provide a visual representation or feedback in the console
-                }
-                catch (OperationCanceledException)
-                {
-                    _qrScannerLogger.LogInfo("Scanning stopped.");
-                }
-                catch (Exception e)
-                {
-                    _qrScannerLogger.LogError($"Error in QR scanning loop: {e.Message}");
-                }
-            }
-        }
-
         #endregion
 
         #region Diagnostics
 
         public async Task<DiagnosticsResult> RunDiagnostics(int maxAttempts, int delayMilliseconds)
         {
-            CommandResult commandResult;
-            List<CommandResult> commandResults;
             DiagnosticsResult diagnosticsResult;
 
             try
@@ -171,43 +199,43 @@ namespace QRScanner.service
 
                 // Step 1: Open CoreScanner API
                 _qrScannerLogger.LogInfo("Opening CoreScanner API...");
-                commandResult = ScannerController.OpenCoreScannerAPI();
-                _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+                var openResult = ScannerController.OpenCoreScannerAPI();
+                _qrScannerLogger.LogInfo(openResult.GetCommandResultDetails());
 
                 // Step 2: Scanner detection and selection 
                 _qrScannerLogger.LogInfo("Detection and selection process...");
-                commandResult = await TryScannerDetectionProcess(maxAttempts, delayMilliseconds);
-                _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
-                if (!commandResult.IsSuccessful())
+                var detectionResult = await TryScannerDetectionProcess(maxAttempts, delayMilliseconds);
+                _qrScannerLogger.LogInfo(detectionResult.GetCommandResultDetails());
+                if (!detectionResult.IsSuccessful())
                 {
                     // Diagnostics failed
-                    diagnosticsResult = new DiagnosticsResult(false, $"Scanner detection process failed after {maxAttempts} attempts.", ScannerController.DetectedScanners, ScannerController.SelectedScanner, commandResult);
+                    diagnosticsResult = new DiagnosticsResult(false, $"Scanner detection process failed after {maxAttempts} attempts.", ScannerController.DetectedScanners, ScannerController.SelectedScanner, detectionResult);
                     _qrScannerLogger.LogError(diagnosticsResult.GetDiagnosticsResultDetails());
                     return diagnosticsResult;
                 }
 
                 // Step 3: Register for events
                 _qrScannerLogger.LogInfo("Registering events...");
-                commandResult = ScannerController.RegisterForAllEvents(true);
-                _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+                var registerResult = ScannerController.RegisterForAllEvents(true);
+                _qrScannerLogger.LogInfo(registerResult.GetCommandResultDetails());
 
                 // Step 4: Claim scanner
                 _qrScannerLogger.LogInfo("Claiming selected scanner...");
-                commandResult = ScannerController.ClaimScanner(true);
-                _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+                var claimResult = ScannerController.ClaimScanner(true);
+                _qrScannerLogger.LogInfo(claimResult.GetCommandResultDetails());
 
                 // Step 5: Disable scan and LED manually for all scanners
                 _qrScannerLogger.LogInfo("Disabling scan and LED...");
-                commandResults = ScannerController.DisableScanForAllScanners();
-                foreach (var scanResult in commandResults) 
+                var disableResults = ScannerController.DisableScanForAllScanners();
+                foreach (var disableResult in disableResults) 
                 { 
-                    _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+                    _qrScannerLogger.LogInfo(disableResult.GetCommandResultDetails());
                 }
 
                 // Step 6: Beeping the scanner
                 _qrScannerLogger.LogInfo("Diagnosis beep...");
-                //commandResult = ScannerController.BeepScanner("20");    // Fast warble beep
-                _qrScannerLogger.LogInfo(commandResult.GetCommandResultDetails());
+                var beepResult = ScannerController.BeepScanner("20");    // Fast warble beep
+                _qrScannerLogger.LogInfo(beepResult.GetCommandResultDetails());
                 
                 // Diagnostics completed successfully
                 diagnosticsResult = new DiagnosticsResult(true, "Diagnostics successfully completed.", ScannerController.DetectedScanners, ScannerController.SelectedScanner);
@@ -230,6 +258,13 @@ namespace QRScanner.service
 
                 return diagnosticsResult;
             }
+            catch (Exception e)
+            {
+                _qrScannerLogger.LogError($"An unexpected error occurred: {e.Message}");
+                diagnosticsResult = new DiagnosticsResult(false, "Unexpected error during diagnostics.", ScannerController.DetectedScanners, ScannerController.SelectedScanner);
+                return diagnosticsResult;
+            }
+
         }
 
         private async Task<CommandResult> TryScannerDetectionProcess(int maxAttempts, int delayMilliseconds)

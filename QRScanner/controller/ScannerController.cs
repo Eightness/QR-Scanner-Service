@@ -8,6 +8,27 @@ using QRScanner.utility;
 
 namespace QRScanner.controller
 {
+    /// <summary>
+    /// Handles interactions with Zebra scanners via the CoreScanner SDK.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="ScannerController"/> class provides methods to manage scanner devices, 
+    /// including opening and closing the CoreScanner API, detecting scanners, selecting a scanner, 
+    /// and performing operations such as enabling/disabling scans, rebooting, triggering LEDs, 
+    /// and beeping the scanner.
+    /// </para>
+    /// <para>
+    /// The class supports multiple scanners, allowing operations on all detected devices or a specific 
+    /// selected scanner. Events related to barcode scanning are also handled and propagated to subscribers.
+    /// </para>
+    /// <para>
+    /// The class enforces validations to ensure a scanner is selected before performing specific operations. 
+    /// It also wraps SDK commands in a structured way, providing detailed results using <see cref="CommandResult"/> 
+    /// and throwing meaningful exceptions when errors occur.
+    /// </para>
+    /// </remarks>
+
     public class ScannerController
     {
         #region Attributes and instances
@@ -15,17 +36,20 @@ namespace QRScanner.controller
         private readonly CCoreScanner _coreScanner; // CoreScanner SDK instance
         public List<Scanner> DetectedScanners;
         public Scanner SelectedScanner;
-        public bool IsOpen { get; private set; } = false;
-
+        private bool IsOpen = false;
         public event EventHandler<BarcodeScannedEventArgs> BarcodeScanned;
 
         #endregion
+
+        #region Constructors
 
         public ScannerController()
         {
             _coreScanner = new CCoreScanner();
             DetectedScanners = new List<Scanner>();
         }
+
+        #endregion
 
         #region Primary methods
 

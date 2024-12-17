@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QRScanner</name>
+    </assembly>
+    <members>
+        <member name="T:QRScanner.controller.ScannerController">
+            <summary>
+            Handles interactions with Zebra scanners via the CoreScanner SDK.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.controller.ScannerController"/> class provides methods to manage scanner devices, 
+            including opening and closing the CoreScanner API, detecting scanners, selecting a scanner, 
+            and performing operations such as enabling/disabling scans, rebooting, triggering LEDs, 
+            and beeping the scanner.
+            </para>
+            <para>
+            The class supports multiple scanners, allowing operations on all detected devices or a specific 
+            selected scanner. Events related to barcode scanning are also handled and propagated to subscribers.
+            </para>
+            <para>
+            The class enforces validations to ensure a scanner is selected before performing specific operations. 
+            It also wraps SDK commands in a structured way, providing detailed results using <see cref="T:QRScanner.model.CommandResult"/> 
+            and throwing meaningful exceptions when errors occur.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.events.BarcodeScannedEventArgs">
+            <summary>
+            Provides data for the barcode scanned event, including the raw data, decoded label, and additional details.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.events.BarcodeScannedEventArgs"/> class encapsulates the data associated with a barcode scan event. 
+            It includes the type of barcode, the raw hexadecimal data received, and the decoded label for easy interpretation.
+            </para>
+            <para>
+            The class decodes hexadecimal data strings (e.g., "0x30 0x31 0x32") into readable ASCII text using the <see cref="M:QRScanner.events.BarcodeScannedEventArgs.DecodeDataLabel(System.String)"/> method. 
+            The decoded string is stored in the <see cref="P:QRScanner.events.BarcodeScannedEventArgs.DecodedDataLabel"/> property and is available for external use.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.events.BarcodeScannedEventArgs.DecodeDataLabel(System.String)">
+            <summary>
+            Decodes a hexadecimal dataLabel string into a readable ASCII string.
+            </summary>
+            <param name="dataLabel">The hexadecimal dataLabel string, with each value prefixed by "0x".</param>
+            <returns>The decoded ASCII string.</returns>
+        </member>
+        <member name="T:QRScanner.Exceptions.QRScannerException">
+            <summary>
+            Serves as the base class for all custom exceptions in the QRScanner namespace.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.Exceptions.QRScannerException"/> class provides a foundation for exceptions that occur in the QRScanner system. 
+            It extends the standard <see cref="T:System.Exception"/> class and includes additional context by associating a <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> object.
+            </para>
+            <para>
+            The <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> property provides detailed information about the command that triggered the exception, such as its execution status, 
+            any XML output, and relevant messages. This allows for better debugging and diagnostic capabilities when handling scanner-related errors.
+            </para>
+            <para>
+            Derived exceptions should call one of the provided constructors to initialize the message and associate the relevant <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> object.
+            Additionally, an optional inner exception can be passed to maintain the exception chain.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.CommandResult">
+            <summary>
+            Represents the result of a command executed by the CoreScanner SDK.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.CommandResult"/> class encapsulates details about a command's execution, including its name, status code, status message, and any associated XML output.
+            This provides a standardized way to interpret and log results from SDK operations in the QRScanner system.
+            </para>
+            <para>
+            The class includes helper methods to determine whether the command executed successfully (via <see cref="M:QRScanner.model.CommandResult.IsSuccessful"/>), 
+            and to parse scanner-related information from the XML output, such as retrieving all detected scanners or a specific scanner by its ID.
+            </para>
+            <para>
+            Use this class when handling responses from the CoreScanner SDK to provide detailed insights into command outcomes, particularly for debugging and diagnostics purposes.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.DiagnosticsResult">
+            <summary>
+            Represents the result of a diagnostics operation performed on the QR scanner system.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.DiagnosticsResult"/> class encapsulates the outcome of a diagnostics operation,
+            providing details such as whether the diagnostics were successful, a descriptive message,
+            the list of detected scanners, the selected scanner, and any relevant command result information.
+            </para>
+            <para>
+            This class is used to aggregate all relevant information about the system's health and state during diagnostics.
+            It is particularly useful for logging, debugging, and presenting diagnostic summaries.
+            </para>
+            <para>
+            The class provides a method, <see cref="M:QRScanner.model.DiagnosticsResult.GetDiagnosticsResultDetails"/>, to return a structured and human-readable
+            report of the diagnostics outcome, including details about detected scanners, the selected scanner,
+            and the result of the last executed command.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.Scanner">
+            <summary>
+            Represents a scanner device with detailed properties and methods for retrieving its information.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.Scanner"/> class encapsulates all relevant details about a scanner device, 
+            including its type, unique identifier (ID), serial number, vendor/product IDs, and other attributes such as 
+            firmware version and model number.
+            </para>
+            <para>
+            This class provides a method, <see cref="M:QRScanner.model.Scanner.GetScannerDetails"/>, which generates a human-readable, structured
+            representation of the scanner's properties. This method is particularly useful for logging, debugging, or displaying
+            scanner information in a user interface.
+            </para>
+            <para>
+            Instances of this class are immutable after construction, ensuring the integrity of scanner details throughout their lifecycle.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.Properties.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:QRScanner.Properties.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:QRScanner.Properties.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+        <member name="T:QRScanner.service.QRScannerService">
+            <summary>
+            Manages the lifecycle, diagnostics, and scanning operations for Zebra scanners.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.service.QRScannerService"/> class serves as a high-level service to control scanner devices, 
+            leveraging the <see cref="F:QRScanner.service.QRScannerService.ScannerController"/> to interact with the CoreScanner SDK. 
+            It provides methods for starting and stopping the scanning process, running diagnostics, 
+            and handling events when a barcode or QR code is scanned.
+            </para>
+            <para>
+            The class follows the Singleton design pattern, ensuring a single shared instance of the service. 
+            It incorporates event-driven programming by exposing the <see cref="E:QRScanner.service.QRScannerService.QRCodeDecoded"/> event, 
+            which propagates decoded QR or barcode data to external subscribers.
+            </para>
+            <para>
+            To ensure proper operation, a successful diagnostics check must be performed before starting the scanning process.
+            Diagnostics verify that the CoreScanner API can be opened, scanners can be detected and selected, 
+            and essential settings (such as disabling scans and LEDs) can be applied. 
+            </para>
+            <para>
+            The scanning process runs asynchronously in a background task, allowing cancellation and graceful shutdown 
+            using a cancellation token. The service logs all operations for transparency and debugging purposes.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.utility.OpcodesHandler">
+            <summary>
+            A static class for managing and interpreting operation codes given by the Zebra CoreScanner API.
+            </summary>
+            <remarks>
+            The class provides:
+            <list type="bullet">
+            <item>Series of constant integers in a human-readable name.</item>
+            <item>A dictionary mapping operation codes to their human-readable descriptions.</item>
+            <item>A method to handle operation codes and return their descriptions.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.utility.OpcodesHandler.HandleOpcode(System.Int32)">
+            <summary>
+            Returns the human-readable description for the given opcode.
+            </summary>
+            <param name="opcode">The opcode to describe.</param>
+            <returns>A string describing the opcode, or "Unknown Opcode" if not found.</returns>
+        </member>
+        <member name="T:QRScanner.utility.StatusHandler">
+            <summary>
+            A static class for managing and interpreting status codes returned by the Zebra CoreScanner API.
+            </summary>
+            <remarks>
+            The class provides:
+            <list type="bullet">
+            <item>A dictionary mapping status codes to their human-readable descriptions.</item>
+            <item>A method to handle status codes and return their descriptions.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.utility.StatusHandler.HandleStatus(System.Int32)">
+            <summary>
+            Handles the status code and retrieves its description.
+            </summary>
+            <param name="status">The status code returned by the scanner.</param>
+            <returns>A formatted string describing the status code.</returns>
+        </member>
+        <member name="T:QRScanner.utility.QRScannerLogger">
+            <summary>
+            Provides logging functionality for the QR Scanner application.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.utility.QRScannerLogger"/> class implements a singleton pattern to ensure a single instance of the logger is used throughout the application. 
+            It logs messages at different levels (INFO, WARNING, ERROR) and appends them both to an in-memory queue and a persistent log file.
+            </para>
+            <para>
+            The logger maintains a counter for log entries and ensures all logs include a timestamp, log level, and unique log index.
+            Logs are saved in the "out" directory under the project root and can be retrieved or cleared programmatically.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.utility.XMLReader">
+            <summary>
+            Provides utility methods for parsing XML data related to scanner devices.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.utility.XMLReader"/> class is a singleton that processes XML data, typically received from the CoreScanner API.
+            It extracts scanner details such as IDs, serial numbers, model numbers, and other relevant properties.
+            </para>
+            <para>
+            This class includes methods for retrieving a single scanner, a scanner by ID, or all scanners present in the XML data.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.view.MainForm">
+            <summary>
+            Represents the main graphical user interface (GUI) for managing and interacting with the QR scanner service.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.view.MainForm"/> class serves as the entry point for the QR scanner application, providing the user interface
+            for diagnostics, starting/stopping scanning services, selecting scanners, and viewing logs. 
+            </para>
+            <para>
+            This class also handles event subscriptions for the QR code scanning process, ensuring the main thread interacts seamlessly 
+            with the scanner service running in the background. Thread-safe methods are implemented to update the UI elements 
+            asynchronously when events are triggered.
+            </para>
+            <para>
+            Key functionalities include:
+            <list type="bullet">
+                <item>Performing diagnostics to detect available scanners.</item>
+                <item>Starting and stopping the scanning service with background event handling.</item>
+                <item>Updating logs and scanner details on the interface.</item>
+                <item>Handling user inputs, such as selecting a scanner by ID and triggering beeps.</item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="F:QRScanner.view.MainForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QRScanner.view.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QRScanner.view.MainForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Entry point for the QR Scanner Service application.
+            Sets up and runs the main form within a Windows Forms environment.
+            </summary>
+        </member>
+        <member name="M:Program.Main">
+            <summary>
+            The main method serves as the entry point for the application.
+            Configures application-level settings and launches the main form.
+            </summary>
+        </member>
+    </members>
+</doc>

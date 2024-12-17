@@ -7,38 +7,35 @@ using QRScanner.model;
 namespace QRScanner.utility
 {
     /// <summary>
-    /// Serves as a XML file worker class.
+    /// Provides utility methods for parsing XML data related to scanner devices.
     /// </summary>
     /// <remarks>
-    /// This class encapsulates the logic associated to decode xml files. Finding scanner nodes
-    /// to convert data to a Scanner object.
+    /// <para>
+    /// The <see cref="XMLReader"/> class is a singleton that processes XML data, typically received from the CoreScanner API.
+    /// It extracts scanner details such as IDs, serial numbers, model numbers, and other relevant properties.
+    /// </para>
+    /// <para>
+    /// This class includes methods for retrieving a single scanner, a scanner by ID, or all scanners present in the XML data.
+    /// </para>
     /// </remarks>
     public class XMLReader
     {
-        #region Singleton Implementation
+        #region Attributes and Instances
 
         // Lazy initialization of the singleton instance.
         private static readonly Lazy<XMLReader> _instance = new Lazy<XMLReader>(() => new XMLReader());
-
-        /// <summary>
-        /// Private constructor to prevent external instantiation.
-        /// </summary>
-        private XMLReader()
-        {
-        }
-
-        /// <summary>
-        /// The single instance of the XMLReader class.
-        /// </summary>
         public static XMLReader Instance => _instance.Value;
+
+        #endregion
+
+        #region Constructors
+
+        private XMLReader() { }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Converts the first scanner in the XML to a Scanner object.
-        /// </summary>
         public Scanner GetFirstScannerDetectedFromXml(string outXml)
         {
             ValidateXmlInput(outXml);
@@ -47,9 +44,6 @@ namespace QRScanner.utility
             return ParseScannerNode(scannerNode);
         }
 
-        /// <summary>
-        /// Retrieves a specific scanner by its ID from the XML.
-        /// </summary>
         public Scanner GetScannerByIdFromXml(string outXml, int scannerId)
         {
             ValidateXmlInput(outXml);
@@ -63,9 +57,6 @@ namespace QRScanner.utility
             return ParseScannerNode(scannerNode);
         }
 
-        /// <summary>
-        /// Retrieves all scanners from the XML as a list.
-        /// </summary>
         public List<Scanner> GetAllScannersFromXml(string outXml)
         {
             ValidateXmlInput(outXml);
@@ -91,9 +82,6 @@ namespace QRScanner.utility
 
         #region Utility methods
 
-        /// <summary>
-        /// Parses an XmlNode into a Scanner object.
-        /// </summary>
         private Scanner ParseScannerNode(XmlNode scannerNode)
         {
             if (scannerNode == null)
@@ -114,9 +102,6 @@ namespace QRScanner.utility
             );
         }
 
-        /// <summary>
-        /// Validates the XML input string.
-        /// </summary>
         private static void ValidateXmlInput(string outXml)
         {
             if (string.IsNullOrWhiteSpace(outXml))
@@ -125,9 +110,6 @@ namespace QRScanner.utility
             }
         }
 
-        /// <summary>
-        /// Loads and returns an XmlDocument from the given XML string.
-        /// </summary>
         private static XmlDocument LoadXmlDocument(string outXml)
         {
             var xmlDoc = new XmlDocument();
@@ -135,18 +117,12 @@ namespace QRScanner.utility
             return xmlDoc;
         }
 
-        /// <summary>
-        /// Retrieves a single XmlNode based on the XPath query.
-        /// </summary>
         private static XmlNode GetScannerNode(string outXml, string xPath)
         {
             XmlDocument xmlDoc = LoadXmlDocument(outXml);
             return xmlDoc.SelectSingleNode(xPath);
         }
 
-        /// <summary>
-        /// Safely parses an XmlNode's child node to an integer.
-        /// </summary>
         private static int ParseNodeToInt(XmlNode parentNode, string nodeName)
         {
             return int.TryParse(parentNode.SelectSingleNode(nodeName)?.InnerText?.Trim(), out int result)
@@ -154,9 +130,6 @@ namespace QRScanner.utility
                 : 0;
         }
 
-        /// <summary>
-        /// Safely parses an XmlNode's child node to a string.
-        /// </summary>
         private static string ParseNodeToString(XmlNode parentNode, string nodeName)
         {
             return parentNode.SelectSingleNode(nodeName)?.InnerText?.Trim() ?? "Unknown";

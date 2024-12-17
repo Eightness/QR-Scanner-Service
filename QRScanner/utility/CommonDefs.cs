@@ -797,6 +797,17 @@ namespace QRScanner.utility
 
     }
 
+    /// <summary>
+    /// A static class for managing and interpreting operation codes given by the Zebra CoreScanner API.
+    /// </summary>
+    /// <remarks>
+    /// The class provides:
+    /// <list type="bullet">
+    /// <item>Series of constant integers in a human-readable name.</item>
+    /// <item>A dictionary mapping operation codes to their human-readable descriptions.</item>
+    /// <item>A method to handle operation codes and return their descriptions.</item>
+    /// </list>
+    /// </remarks>
     public static class OpcodesHandler
     {
         // Scanner SDK Commands

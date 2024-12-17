@@ -7,6 +7,25 @@ using QRScanner.utility;
 
 namespace QRScanner.model
 {
+    /// <summary>
+    /// Represents the result of a diagnostics operation performed on the QR scanner system.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="DiagnosticsResult"/> class encapsulates the outcome of a diagnostics operation,
+    /// providing details such as whether the diagnostics were successful, a descriptive message,
+    /// the list of detected scanners, the selected scanner, and any relevant command result information.
+    /// </para>
+    /// <para>
+    /// This class is used to aggregate all relevant information about the system's health and state during diagnostics.
+    /// It is particularly useful for logging, debugging, and presenting diagnostic summaries.
+    /// </para>
+    /// <para>
+    /// The class provides a method, <see cref="GetDiagnosticsResultDetails"/>, to return a structured and human-readable
+    /// report of the diagnostics outcome, including details about detected scanners, the selected scanner,
+    /// and the result of the last executed command.
+    /// </para>
+    /// </remarks>
     public class DiagnosticsResult
     {
         #region Attributes and instances
@@ -18,6 +37,8 @@ namespace QRScanner.model
         public CommandResult CommandResult { get; set; }
 
         #endregion
+
+        #region Constructors
 
         public DiagnosticsResult() 
         {
@@ -42,6 +63,8 @@ namespace QRScanner.model
             SelectedScanner = selectedScanner;
             CommandResult = commandResult;
         }
+
+        #endregion
 
         #region Methods
 

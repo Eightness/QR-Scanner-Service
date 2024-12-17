@@ -4,6 +4,22 @@ using QRScanner.utility;
 
 namespace QRScanner.model
 {
+    /// <summary>
+    /// Represents the result of a command executed by the CoreScanner SDK.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="CommandResult"/> class encapsulates details about a command's execution, including its name, status code, status message, and any associated XML output.
+    /// This provides a standardized way to interpret and log results from SDK operations in the QRScanner system.
+    /// </para>
+    /// <para>
+    /// The class includes helper methods to determine whether the command executed successfully (via <see cref="IsSuccessful"/>), 
+    /// and to parse scanner-related information from the XML output, such as retrieving all detected scanners or a specific scanner by its ID.
+    /// </para>
+    /// <para>
+    /// Use this class when handling responses from the CoreScanner SDK to provide detailed insights into command outcomes, particularly for debugging and diagnostics purposes.
+    /// </para>
+    /// </remarks>
     public class CommandResult
     {
         #region Attributes and instances
@@ -55,17 +71,11 @@ namespace QRScanner.model
 
         #region Methods
 
-        /// <summary>
-        /// Returns true or false depending if status is 0 or not
-        /// </summary>
         public bool IsSuccessful()
         {
             return Status == 0;
         }
 
-        /// <summary>
-        /// Returns a detailed, human-readable string representing all the information in the CommandResult object.
-        /// </summary>
         public string GetCommandResultDetails()
         {
             var details = new StringBuilder();

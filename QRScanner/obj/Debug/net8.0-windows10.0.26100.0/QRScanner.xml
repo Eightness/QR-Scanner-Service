@@ -1,0 +1,929 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QRScanner</name>
+    </assembly>
+    <members>
+        <member name="T:QRScanner.controller.ScannerController">
+            <summary>
+            Handles interactions with Zebra scanners via the CoreScanner SDK.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.controller.ScannerController"/> class provides methods to manage scanner devices, 
+            including opening and closing the CoreScanner API, detecting scanners, selecting a scanner, 
+            and performing operations such as enabling/disabling scans, rebooting, triggering LEDs, 
+            and beeping the scanner.
+            </para>
+            <para>
+            The class supports multiple scanners, allowing operations on all detected devices or a specific 
+            selected scanner. Events related to barcode scanning are also handled and propagated to subscribers.
+            </para>
+            <para>
+            The class enforces validations to ensure a scanner is selected before performing specific operations. 
+            It also wraps SDK commands in a structured way, providing detailed results using <see cref="T:QRScanner.model.CommandResult"/> 
+            and throwing meaningful exceptions when errors occur.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.events.BarcodeScannedEventArgs">
+            <summary>
+            Provides data for the barcode scanned event, including the raw data, decoded label, and additional details.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.events.BarcodeScannedEventArgs"/> class encapsulates the data associated with a barcode scan event. 
+            It includes the type of barcode, the raw hexadecimal data received, and the decoded label for easy interpretation.
+            </para>
+            <para>
+            The class decodes hexadecimal data strings (e.g., "0x30 0x31 0x32") into readable ASCII text using the <see cref="M:QRScanner.events.BarcodeScannedEventArgs.DecodeDataLabel(System.String)"/> method. 
+            The decoded string is stored in the <see cref="P:QRScanner.events.BarcodeScannedEventArgs.DecodedDataLabel"/> property and is available for external use.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.events.BarcodeScannedEventArgs.DecodeDataLabel(System.String)">
+            <summary>
+            Decodes a hexadecimal dataLabel string into a readable ASCII string.
+            </summary>
+            <param name="dataLabel">The hexadecimal dataLabel string, with each value prefixed by "0x".</param>
+            <returns>The decoded ASCII string.</returns>
+        </member>
+        <member name="T:QRScanner.Exceptions.QRScannerException">
+            <summary>
+            Serves as the base class for all custom exceptions in the QRScanner namespace.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.Exceptions.QRScannerException"/> class provides a foundation for exceptions that occur in the QRScanner system. 
+            It extends the standard <see cref="T:System.Exception"/> class and includes additional context by associating a <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> object.
+            </para>
+            <para>
+            The <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> property provides detailed information about the command that triggered the exception, such as its execution status, 
+            any XML output, and relevant messages. This allows for better debugging and diagnostic capabilities when handling scanner-related errors.
+            </para>
+            <para>
+            Derived exceptions should call one of the provided constructors to initialize the message and associate the relevant <see cref="P:QRScanner.Exceptions.QRScannerException.CommandResult"/> object.
+            Additionally, an optional inner exception can be passed to maintain the exception chain.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.CommandResult">
+            <summary>
+            Represents the result of a command executed by the CoreScanner SDK.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.CommandResult"/> class encapsulates details about a command's execution, including its name, status code, status message, and any associated XML output.
+            This provides a standardized way to interpret and log results from SDK operations in the QRScanner system.
+            </para>
+            <para>
+            The class includes helper methods to determine whether the command executed successfully (via <see cref="M:QRScanner.model.CommandResult.IsSuccessful"/>), 
+            and to parse scanner-related information from the XML output, such as retrieving all detected scanners or a specific scanner by its ID.
+            </para>
+            <para>
+            Use this class when handling responses from the CoreScanner SDK to provide detailed insights into command outcomes, particularly for debugging and diagnostics purposes.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.DiagnosticsResult">
+            <summary>
+            Represents the result of a diagnostics operation performed on the QR scanner system.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.DiagnosticsResult"/> class encapsulates the outcome of a diagnostics operation,
+            providing details such as whether the diagnostics were successful, a descriptive message,
+            the list of detected scanners, the selected scanner, and any relevant command result information.
+            </para>
+            <para>
+            This class is used to aggregate all relevant information about the system's health and state during diagnostics.
+            It is particularly useful for logging, debugging, and presenting diagnostic summaries.
+            </para>
+            <para>
+            The class provides a method, <see cref="M:QRScanner.model.DiagnosticsResult.GetDiagnosticsResultDetails"/>, to return a structured and human-readable
+            report of the diagnostics outcome, including details about detected scanners, the selected scanner,
+            and the result of the last executed command.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.model.Scanner">
+            <summary>
+            Represents a scanner device with detailed properties and methods for retrieving its information.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.model.Scanner"/> class encapsulates all relevant details about a scanner device, 
+            including its type, unique identifier (ID), serial number, vendor/product IDs, and other attributes such as 
+            firmware version and model number.
+            </para>
+            <para>
+            This class provides a method, <see cref="M:QRScanner.model.Scanner.GetScannerDetails"/>, which generates a human-readable, structured
+            representation of the scanner's properties. This method is particularly useful for logging, debugging, or displaying
+            scanner information in a user interface.
+            </para>
+            <para>
+            Instances of this class are immutable after construction, ensuring the integrity of scanner details throughout their lifecycle.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.Properties.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:QRScanner.Properties.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:QRScanner.Properties.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+        <member name="T:QRScanner.service.QRScannerService">
+            <summary>
+            Manages the lifecycle, diagnostics, and scanning operations for Zebra scanners.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.service.QRScannerService"/> class serves as a high-level service to control scanner devices, 
+            leveraging the <see cref="F:QRScanner.service.QRScannerService.ScannerController"/> to interact with the CoreScanner SDK. 
+            It provides methods for starting and stopping the scanning process, running diagnostics, 
+            and handling events when a barcode or QR code is scanned.
+            </para>
+            <para>
+            The class follows the Singleton design pattern, ensuring a single shared instance of the service. 
+            It incorporates event-driven programming by exposing the <see cref="E:QRScanner.service.QRScannerService.QRCodeDecoded"/> event, 
+            which propagates decoded QR or barcode data to external subscribers.
+            </para>
+            <para>
+            To ensure proper operation, a successful diagnostics check must be performed before starting the scanning process.
+            Diagnostics verify that the CoreScanner API can be opened, scanners can be detected and selected, 
+            and essential settings (such as disabling scans and LEDs) can be applied. 
+            </para>
+            <para>
+            The scanning process runs asynchronously in a background task, allowing cancellation and graceful shutdown 
+            using a cancellation token. The service logs all operations for transparency and debugging purposes.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.utility.ScannerType">
+            <summary>
+            Scanner Types
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.All">
+            <summary>
+            All Scanner Types mentioned below
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.Snapi">
+            <summary>
+            Symbol Native API (SNAPI) with Imaging Interface
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.SsiRs232">
+            <summary>
+            Simple Serial Interface (SSI) over RS-232
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.IbmHandheldUsb">
+            <summary>
+            IBM Hand-held USB
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.NixdorfModeB">
+            <summary>
+            WincorNixdorf Mode B
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.UsbKeyboardHid">
+            <summary>
+            USB Keyboard HID
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.IbmTableTopUsb">
+            <summary>
+            IBM Table-top USB
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.SsiBluetoothClassic">
+            <summary>
+            Simple Serial Interface (SSI) over Bluetooth Classic
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerType.Opos">
+            <summary>
+            OPOS (IBM Hand-held)
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.EventType">
+            <summary>
+            Event Types
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Barcode">
+            <summary>
+            Barcode event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Image">
+            <summary>
+            Image event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Video">
+            <summary>
+            Video event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Rmd">
+            <summary>
+            RMD event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Pnp">
+            <summary>
+            PNP event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.EventType.Other">
+            <summary>
+            Other event Types
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.Status">
+            <summary>
+            Available Values For 'Status' 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Status.Success">
+            <summary>
+            Status success
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Status.Locked">
+            <summary>
+            Status locked
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.DecodeEventType">
+            <summary>
+            Barcode Event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.DecodeEventType.ScannerDecodeGood">
+            <summary>
+            Successful decode
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.VideoEventType">
+            <summary>
+            Video Event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.VideoEventType.VideoFrameComplete">
+            <summary>
+            Complete video frame captured
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.ImageEventType">
+            <summary>
+            Image Event Type
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ImageEventType.ImageComplete">
+            <summary>
+            Image captured
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ImageEventType.ImageTranStatus">
+            <summary>
+            Image error or status
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.DeviceNotification">
+            <summary>
+            Device Notification 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.DeviceNotification.ScannerAttached">
+            <summary>
+            Scanner attached
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.DeviceNotification.ScannerDetached">
+            <summary>
+            Scanner detached
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.ScannerNotification">
+            <summary>
+            Scanner Notification
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerNotification.BarcodeMode">
+            <summary>
+            Barcode mode
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerNotification.ImageMode">
+            <summary>
+            Image mode
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerNotification.VideoMode">
+            <summary>
+            Video mode
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerNotification.DeviceEnabled">
+            <summary>
+            Device enabled
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ScannerNotification.DeviceDisabled">
+            <summary>
+            Device disabled
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.FirmwareDownloadEvent">
+            <summary>
+            Firmware Download Events
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FirmwareDownloadEvent.ScannerUfSessionStart">
+            <summary>
+            Triggered when flash download session starts 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FirmwareDownloadEvent.ScannerUfDownloadStart">
+            <summary>
+            Triggered when component download starts 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FirmwareDownloadEvent.ScannerUfDownloadProgress">
+            <summary>
+            Triggered when block(s) Of flash completed 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FirmwareDownloadEvent.ScannerUfDownloadEnd">
+            <summary>
+            Triggered when component download ends 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FirmwareDownloadEvent.ScannerUFSessionEnd">
+            <summary>
+            Triggered when flash download session ends 
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.FileType">
+            <summary>
+            File Types
+            Please refer scanner PRGs for more information on scanner parameters.   
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FileType.JpegFileSelection">
+            <summary>
+            Jpeg file
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FileType.BmpFileSelection">
+            <summary>
+            Bmp file
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.FileType.TiffFileSelection">
+            <summary>
+            Tiff file
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.VideoViewFinder">
+            <summary>
+            Video View Finder 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.VideoViewFinder.On">
+            <summary>
+             Video View Finder On  
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.VideoViewFinder.Off">
+            <summary>
+            Video View Finder Off
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.ParamPersistance">
+            <summary>
+            Param Persistance
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ParamPersistance.ParamPersistanceOn">
+            <summary>
+            Parameters Persistance On
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.ParamPersistance.ParamPersistanceOff">
+            <summary>
+            Parameters Persistance On
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.BeepCode">
+            <summary>
+            Beep Codes
+            Please refer scanner PRGs for more information on beep codes.   
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.LEDCode">
+            <summary>
+            LED Codes
+            Please refer scanner PRGs for more information on LED codes.   
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led1On">
+            <summary>
+            Green  Led On
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led2On">
+            <summary>
+            Yellow  Led On
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led3On">
+            <summary>
+            Red  Led On 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led1Off">
+            <summary>
+            Green  Led Off 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led2Off">
+            <summary>
+            Yellow  Led Off 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.LEDCode.Led3Off">
+            <summary>
+            Red  Led Off
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.Opcode">
+            <summary>
+            CoreScanner Opcodes
+            Please refer Scanner SDK for Windows Developer Guide for more information on opcodes.   
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.GetVersion">
+            <summary>
+            Gets the version of CoreScanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RegisterForEvents">
+            <summary>
+            Register for API events
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.UnregisterForEvents">
+            <summary>
+            Unregister for API events
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.GetPairingBarcode">
+            <summary>
+            Get Bluetooth scanner pairing bar code
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ClaimDevice">
+            <summary>
+            Claim a specific device
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ReleaseDevice">
+            <summary>
+            Release a specific device
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.AbortMacroPdf">
+            <summary>
+            Abort MacroPDF of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.AbortUpdateFirmware">
+            <summary>
+            Abort firmware update process of a specified scanner, while in progress
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceAimOff">
+            <summary>
+            Turn Aim off
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceAimOn">
+            <summary>
+            Turn Aim on
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.FlushMacroPdf">
+            <summary>
+            Flush MacroPDF of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DevicePullTrigger">
+            <summary>
+            Pull the trigger of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceReleaseTrigger">
+            <summary>
+            Release the trigger of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceScanDisable">
+            <summary>
+            Disable scanning on a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceScanEnable">
+            <summary>
+            Enable scanning on a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.SetParameterDefaults">
+            <summary>
+            Set parameters to default values of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceSetParameters">
+            <summary>
+            Set parameters of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.SetParameterPersistance">
+            <summary>
+            Set and persist parameters of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RebootScanner">
+            <summary>
+            Reboot a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DisconnectBluetoothScanner">
+            <summary>
+            Disconnect the specified Bluetooth scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceCaptureImage">
+            <summary>
+            Change a specified scanner to snapshot mode 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceCaptureBarcode">
+            <summary>
+            Change a specified scanner to decode mode 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceCaptureVideo">
+            <summary>
+            Change a specified scanner to video mode 
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RsmAttrGetAll">
+            <summary>
+            Get all the attributes of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RsmAttrGet">
+            <summary>
+            Get the attribute values(s) of specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RsmAttrGetNext">
+            <summary>
+            Get the next attribute to a given attribute of specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RsmAttrSet">
+            <summary>
+            Set the attribute values(s) of specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.RsmAttrStore">
+            <summary>
+            Store and persist the attribute values(s) of specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.GetDeviceTopology">
+            <summary>
+            Get the topology of the connected devices
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.UninstallSymbolDevices">
+            <summary>
+            Remove all Symbol device entries from registry
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.StartNewFirmware">
+            <summary>
+            Start (flashing) the updated firmware
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.UpdateFirmware">
+            <summary>
+            Update the firmware to a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.UpdateFirmwareFromPlugin">
+            <summary>
+            Update the firmware to a specified scanner using a scanner plug-in
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.UpdateDecodeTone">
+            <summary>
+            Update good scan tone of the scanner with specified wav file
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.EraseDecodeTone">
+            <summary>
+            Erase good scan tone of the scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.SetAction">
+            <summary>
+            Perform an action involving scanner beeper/LEDs
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceSetSerialPortSettings">
+            <summary>
+            Set the serial port settings of a NIXDORF Mode-B scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.DeviceSwitchHostMode">
+            <summary>
+            Switch the USB host mode of a specified scanner
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.SwitchCdcDevices">
+            <summary>
+            Switch CDC devices
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.KeyboardEmulatorEnable">
+            <summary>
+            Enable/Disable keyboard emulation mode
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.KeyboardEmulatorSetLocale">
+            <summary>
+            Set the locale for keyboard emulation mode
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.KeyboardEmulatorGetConfig">
+            <summary>
+            Get current configuration of the HID keyboard emulator
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ConfigureDADF">
+            <summary>
+             Configure Driver ADF
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ResetDADF">
+            <summary>
+            Reset Driver ADF
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ScaleReadWeight">
+            <summary>
+            Measure the weight on the scanner's platter and get the value
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ScaleZeroScale">
+            <summary>
+             Zero the scale
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Opcode.ScaleSystemReset">
+            <summary>
+            Reset the scale
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.CodeType">
+            <summary>
+            Code Types
+            Please refer Scanner SDK for Windows Developer Guide for more information on code types.   
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.RSMDataType">
+            <summary>
+            RSM Data Types
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.B">
+            <summary>
+            Byte  Unsigned char
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.C">
+            <summary>
+            Char  Signed byte
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.F">
+            <summary>
+            Bit flags
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.W">
+            <summary>
+            Word  Short unsigned integer (16 Bits)
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.I">
+            <summary>
+            Sword  Short signed integer (16 Bits)
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.D">
+            <summary>
+            Dword  Long unsigned integer (32 Bits)
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.L">
+            <summary>
+            Sdword  Long signed integer (32 Bits)
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.A">
+            <summary>
+            Array
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.S">
+            <summary>
+            String
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.RSMDataType.X">
+            <summary>
+            Action
+            </summary>
+        </member>
+        <member name="T:QRScanner.utility.Constant">
+            <summary>
+            Common constants definition class
+            </summary>
+        </member>
+        <member name="F:QRScanner.utility.Constant.ScannerUfStatus">
+            Triggered when update error or status
+        </member>
+        <member name="F:QRScanner.utility.Constant.MaxNumDevices">
+            Maximum number of scanners to be connected
+        </member>
+        <member name="F:QRScanner.utility.Constant.VideoViewFinderParamNum">
+            Video View Finder paaram number
+        </member>
+        <member name="F:QRScanner.utility.Constant.ImageFilterTypeParamNum">
+            Image Filter Type param number
+        </member>
+        <member name="F:QRScanner.utility.Constant.MaxBuffSize">
+            Maximum buffer size
+        </member>
+        <member name="F:QRScanner.utility.Constant.MaxParamLength">
+            Maximum number of bytes per parameter    
+        </member>
+        <member name="F:QRScanner.utility.Constant.MaxSerialNumberLength">
+            Maximum number of bytes for serial number
+        </member>
+        <member name="F:QRScanner.utility.Constant.WavFileMaxSize">
+            Wave file buffer Size (Default file size Is 10kb)
+        </member>
+        <member name="T:QRScanner.utility.OpcodesHandler">
+            <summary>
+            A static class for managing and interpreting operation codes given by the Zebra CoreScanner API.
+            </summary>
+            <remarks>
+            The class provides:
+            <list type="bullet">
+            <item>Series of constant integers in a human-readable name.</item>
+            <item>A dictionary mapping operation codes to their human-readable descriptions.</item>
+            <item>A method to handle operation codes and return their descriptions.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.utility.OpcodesHandler.HandleOpcode(System.Int32)">
+            <summary>
+            Returns the human-readable description for the given opcode.
+            </summary>
+            <param name="opcode">The opcode to describe.</param>
+            <returns>A string describing the opcode, or "Unknown Opcode" if not found.</returns>
+        </member>
+        <member name="T:QRScanner.utility.StatusHandler">
+            <summary>
+            A static class for managing and interpreting status codes returned by the Zebra CoreScanner API.
+            </summary>
+            <remarks>
+            The class provides:
+            <list type="bullet">
+            <item>A dictionary mapping status codes to their human-readable descriptions.</item>
+            <item>A method to handle status codes and return their descriptions.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:QRScanner.utility.StatusHandler.HandleStatus(System.Int32)">
+            <summary>
+            Handles the status code and retrieves its description.
+            </summary>
+            <param name="status">The status code returned by the scanner.</param>
+            <returns>A formatted string describing the status code.</returns>
+        </member>
+        <member name="T:QRScanner.utility.QRScannerLogger">
+            <summary>
+            Provides logging functionality for the QR Scanner application.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.utility.QRScannerLogger"/> class implements a singleton pattern to ensure a single instance of the logger is used throughout the application. 
+            It logs messages at different levels (INFO, WARNING, ERROR) and appends them both to an in-memory queue and a persistent log file.
+            </para>
+            <para>
+            The logger maintains a counter for log entries and ensures all logs include a timestamp, log level, and unique log index.
+            Logs are saved in the "out" directory under the project root and can be retrieved or cleared programmatically.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.utility.XMLReader">
+            <summary>
+            Provides utility methods for parsing XML data related to scanner devices.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.utility.XMLReader"/> class is a singleton that processes XML data, typically received from the CoreScanner API.
+            It extracts scanner details such as IDs, serial numbers, model numbers, and other relevant properties.
+            </para>
+            <para>
+            This class includes methods for retrieving a single scanner, a scanner by ID, or all scanners present in the XML data.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:QRScanner.view.MainForm">
+            <summary>
+            Represents the main graphical user interface (GUI) for managing and interacting with the QR scanner service.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:QRScanner.view.MainForm"/> class serves as the entry point for the QR scanner application, providing the user interface
+            for diagnostics, starting/stopping scanning services, selecting scanners, and viewing logs. 
+            </para>
+            <para>
+            This class also handles event subscriptions for the QR code scanning process, ensuring the main thread interacts seamlessly 
+            with the scanner service running in the background. Thread-safe methods are implemented to update the UI elements 
+            asynchronously when events are triggered.
+            </para>
+            <para>
+            Key functionalities include:
+            <list type="bullet">
+                <item>Performing diagnostics to detect available scanners.</item>
+                <item>Starting and stopping the scanning service with background event handling.</item>
+                <item>Updating logs and scanner details on the interface.</item>
+                <item>Handling user inputs, such as selecting a scanner by ID and triggering beeps.</item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="F:QRScanner.view.MainForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QRScanner.view.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QRScanner.view.MainForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Entry point for the QR Scanner Service application.
+            Sets up and runs the main form within a Windows Forms environment.
+            </summary>
+        </member>
+        <member name="M:Program.Main">
+            <summary>
+            The main method serves as the entry point for the application.
+            Configures application-level settings and launches the main form.
+            </summary>
+        </member>
+    </members>
+</doc>

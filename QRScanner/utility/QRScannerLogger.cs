@@ -5,10 +5,18 @@ using System.IO;
 namespace QRScanner.utility
 {
     /// <summary>
-    /// Singleton Logger class to handle application logs.
-    /// Provides thread-safe logging with support for different log levels (INFO, WARNING, ERROR).
-    /// Logs are stored in memory and appended to a file in the "out" directory.
+    /// Provides logging functionality for the QR Scanner application.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="QRScannerLogger"/> class implements a singleton pattern to ensure a single instance of the logger is used throughout the application. 
+    /// It logs messages at different levels (INFO, WARNING, ERROR) and appends them both to an in-memory queue and a persistent log file.
+    /// </para>
+    /// <para>
+    /// The logger maintains a counter for log entries and ensures all logs include a timestamp, log level, and unique log index.
+    /// Logs are saved in the "out" directory under the project root and can be retrieved or cleared programmatically.
+    /// </para>
+    /// </remarks>
     public sealed class QRScannerLogger
     {
         #region Attributes and instances
@@ -17,18 +25,13 @@ namespace QRScanner.utility
         private readonly ConcurrentQueue<string> _logs = new();
         private int _logCounter = 0; // Counter for the number of logs
         private readonly string _logFilePath; // File path for the logs
-
-        /// <summary>
-        /// Provides the singleton instance of the Logger.
-        /// </summary>
+        private DateTime _lastLogDate;
         public static QRScannerLogger Instance => _instance.Value;
 
         #endregion
 
-        /// <summary>
-        /// Private constructor to prevent external instantiation.
-        /// Sets up the log file in the "out" directory.
-        /// </summary>
+        #region Constructors
+
         private QRScannerLogger()
         {
             // Define the log file path inside the "out" folder
@@ -43,44 +46,34 @@ namespace QRScanner.utility
             // Initialize the log file if it doesn't exist
             if (!File.Exists(_logFilePath))
                 File.Create(_logFilePath).Close();
+
+            // Initialize last log date with  la última fecha registrada con la fecha actual
+            _lastLogDate = DateTime.Now.Date;
         }
+
+        #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Logs an informational message.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public void LogInfo(string message)
         {
             AddLog("INFO", message);
         }
 
-        /// <summary>
-        /// Logs a warning message.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public void LogWarning(string message)
         {
             AddLog("WARNING", message);
         }
 
-        /// <summary>
-        /// Logs an error message.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public void LogError(string message)
         {
             AddLog("ERROR", message);
         }
 
-        /// <summary>
-        /// Adds a log entry to the in-memory queue and appends it to the log file.
-        /// </summary>
-        /// <param name="level">The log level (e.g., INFO, WARNING, ERROR).</param>
-        /// <param name="message">The log message.</param>
         private void AddLog(string level, string message)
         {
+            CheckAndResetLogFile();
+
             int currentLogNumber = ++_logCounter; // Increment and get the current log count
             string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             string formattedLog = $"[{currentLogNumber}] [{timestamp}] [{level}]: {message}";
@@ -93,10 +86,26 @@ namespace QRScanner.utility
             AppendLogToFile(formattedLog);
         }
 
-        /// <summary>
-        /// Appends a log entry to the log file.
-        /// </summary>
-        /// <param name="logEntry">The log entry to append.</param>
+        private void CheckAndResetLogFile()
+        {
+            DateTime currentDate = DateTime.Now.Date;
+
+            if (_lastLogDate != currentDate)
+            {
+                try
+                {
+                    File.WriteAllText(_logFilePath, string.Empty); // Deletes all logs content
+                    Console.WriteLine($"Log file reset on {currentDate:dd/MM/yyyy}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to reset log file: {ex.Message}");
+                }
+
+                _lastLogDate = currentDate; // Updates last log date
+            }
+        }
+
         private void AppendLogToFile(string logEntry)
         {
             try
@@ -109,18 +118,11 @@ namespace QRScanner.utility
             }
         }
 
-        /// <summary>
-        /// Retrieves all logs currently in memory.
-        /// </summary>
-        /// <returns>An array of log entries.</returns>
         public string[] GetLogs()
         {
             return _logs.ToArray();
         }
 
-        /// <summary>
-        /// Clear all logs currently in memory.
-        /// </summary>
         public void ClearLogs()
         {
             _logs.Clear();

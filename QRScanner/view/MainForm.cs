@@ -16,6 +16,29 @@ using QRScanner.utility;
 
 namespace QRScanner.view
 {
+    /// <summary>
+    /// Represents the main graphical user interface (GUI) for managing and interacting with the QR scanner service.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="MainForm"/> class serves as the entry point for the QR scanner application, providing the user interface
+    /// for diagnostics, starting/stopping scanning services, selecting scanners, and viewing logs. 
+    /// </para>
+    /// <para>
+    /// This class also handles event subscriptions for the QR code scanning process, ensuring the main thread interacts seamlessly 
+    /// with the scanner service running in the background. Thread-safe methods are implemented to update the UI elements 
+    /// asynchronously when events are triggered.
+    /// </para>
+    /// <para>
+    /// Key functionalities include:
+    /// <list type="bullet">
+    ///     <item>Performing diagnostics to detect available scanners.</item>
+    ///     <item>Starting and stopping the scanning service with background event handling.</item>
+    ///     <item>Updating logs and scanner details on the interface.</item>
+    ///     <item>Handling user inputs, such as selecting a scanner by ID and triggering beeps.</item>
+    /// </list>
+    /// </para>
+    /// </remarks>
     public partial class MainForm : Form
     {
         #region Attributes and instances
@@ -25,11 +48,15 @@ namespace QRScanner.view
 
         #endregion
 
+        #region Constructors
+
         public MainForm()
         {
             InitializeComponent();
             SetDefaultOperations();
         }
+
+        #endregion
 
         #region Buttons
 

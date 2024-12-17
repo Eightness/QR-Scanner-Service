@@ -5,13 +5,24 @@ using QRScanner.utility;
 namespace QRScanner.Exceptions
 {
     /// <summary>
-    /// Base class for all custom exceptions in the QRScanner namespace.
+    /// Serves as the base class for all custom exceptions in the QRScanner namespace.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="QRScannerException"/> class provides a foundation for exceptions that occur in the QRScanner system. 
+    /// It extends the standard <see cref="System.Exception"/> class and includes additional context by associating a <see cref="CommandResult"/> object.
+    /// </para>
+    /// <para>
+    /// The <see cref="CommandResult"/> property provides detailed information about the command that triggered the exception, such as its execution status, 
+    /// any XML output, and relevant messages. This allows for better debugging and diagnostic capabilities when handling scanner-related errors.
+    /// </para>
+    /// <para>
+    /// Derived exceptions should call one of the provided constructors to initialize the message and associate the relevant <see cref="CommandResult"/> object.
+    /// Additionally, an optional inner exception can be passed to maintain the exception chain.
+    /// </para>
+    /// </remarks>
     public abstract class QRScannerException : Exception
     {
-        /// <summary>
-        /// The command result associated with the exception.
-        /// </summary>
         public CommandResult CommandResult { get; }
 
         protected QRScannerException(string message)

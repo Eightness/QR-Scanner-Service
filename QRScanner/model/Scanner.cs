@@ -4,14 +4,28 @@ using System.Text;
 namespace QRScanner.model
 {
     /// <summary>
-    /// Represents a scanner device with its associated properties and details.
-    /// Provides methods to access scanner information and display it in a structured format.
+    /// Represents a scanner device with detailed properties and methods for retrieving its information.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="Scanner"/> class encapsulates all relevant details about a scanner device, 
+    /// including its type, unique identifier (ID), serial number, vendor/product IDs, and other attributes such as 
+    /// firmware version and model number.
+    /// </para>
+    /// <para>
+    /// This class provides a method, <see cref="GetScannerDetails"/>, which generates a human-readable, structured
+    /// representation of the scanner's properties. This method is particularly useful for logging, debugging, or displaying
+    /// scanner information in a user interface.
+    /// </para>
+    /// <para>
+    /// Instances of this class are immutable after construction, ensuring the integrity of scanner details throughout their lifecycle.
+    /// </para>
+    /// </remarks>
     public class Scanner
     {
         #region Attributes and instances
 
-        // Private fields
+        // Private properties
         private readonly string scannerType;
         private readonly int scannerID;
         private readonly string serialNumber;
@@ -24,19 +38,8 @@ namespace QRScanner.model
 
         #endregion
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Scanner"/> class with specified details.
-        /// Defaults to "Unknown" for strings and 0 for numeric values if inputs are invalid or empty.
-        /// </summary>
-        /// <param name="scannerType">The type of the scanner (e.g., USB, Bluetooth).</param>
-        /// <param name="scannerID">The unique ID of the scanner.</param>
-        /// <param name="serialNumber">The serial number of the scanner.</param>
-        /// <param name="guid">The globally unique identifier (GUID) of the scanner.</param>
-        /// <param name="vid">The vendor ID of the scanner.</param>
-        /// <param name="pid">The product ID of the scanner.</param>
-        /// <param name="modelNumber">The model number of the scanner.</param>
-        /// <param name="dom">The date of manufacture (DOM) of the scanner.</param>
-        /// <param name="firmware">The firmware version of the scanner.</param>
+        #region Constructors
+
         public Scanner(
             string scannerType,
             int scannerID,
@@ -60,62 +63,25 @@ namespace QRScanner.model
             this.firmware = string.IsNullOrWhiteSpace(firmware) ? "Unknown" : firmware;
         }
 
+        #endregion
+
         #region Public properties
 
         // Properties for accessing scanner details (read-only)
-
-        /// <summary>
-        /// Gets the type of the scanner.
-        /// </summary>
         public string ScannerType => scannerType;
-
-        /// <summary>
-        /// Gets the unique ID of the scanner.
-        /// </summary>
         public int ScannerID => scannerID;
-
-        /// <summary>
-        /// Gets the serial number of the scanner.
-        /// </summary>
         public string SerialNumber => serialNumber;
-
-        /// <summary>
-        /// Gets the globally unique identifier (GUID) of the scanner.
-        /// </summary>
         public string GUID => guid;
-
-        /// <summary>
-        /// Gets the vendor ID (VID) of the scanner.
-        /// </summary>
         public string VID => vid;
-
-        /// <summary>
-        /// Gets the product ID (PID) of the scanner.
-        /// </summary>
         public string PID => pid;
-
-        /// <summary>
-        /// Gets the model number of the scanner.
-        /// </summary>
         public string ModelNumber => modelNumber;
-
-        /// <summary>
-        /// Gets the date of manufacture (DOM) of the scanner.
-        /// </summary>
         public string DOM => dom;
-
-        /// <summary>
-        /// Gets the firmware version of the scanner.
-        /// </summary>
         public string Firmware => firmware;
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Get the details of the scanner in a structured and readable format.
-        /// </summary>
         public string GetScannerDetails()
         {
             StringBuilder details = new StringBuilder();
@@ -131,33 +97,6 @@ namespace QRScanner.model
             details.AppendLine($"- Date of Manufacture (DOM): {DOM}");
             details.Append($"- Firmware Version: {Firmware}");
             details.AppendLine("");
-
-            return details.ToString();
-        }
-
-        /// <summary>
-        /// Get the details of all scanners in the list in a structured and readable format.
-        /// </summary>
-        /// <param name="scanners">The list of scanners to display details for.</param>
-        /// <returns>A string containing the details of all scanners.</returns>
-        public static string GetScannersDetails(List<Scanner> scanners)
-        {
-            if (scanners == null || scanners.Count == 0)
-            {
-                return "0 scanners.";
-            }
-
-            StringBuilder details = new StringBuilder();
-
-            details.AppendLine("Scanners Details:");
-            details.AppendLine(new string('-', 50)); // Separator for better readability
-
-            for (int i = 0; i < scanners.Count; i++)
-            {
-                details.AppendLine($"Scanner {i + 1}:");
-                details.AppendLine(scanners[i].GetScannerDetails());
-                details.AppendLine(new string('-', 50)); // Separator between scanners
-            }
 
             return details.ToString();
         }
