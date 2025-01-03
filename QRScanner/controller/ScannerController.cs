@@ -28,7 +28,6 @@ namespace QRScanner.controller
     /// and throwing meaningful exceptions when errors occur.
     /// </para>
     /// </remarks>
-
     public class ScannerController
     {
         #region Attributes and instances
